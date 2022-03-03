@@ -38,12 +38,14 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             />
 
-        <EditText
+        <TextView
             android:id="@+id/edit_text_termID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Term ID"
-            android:inputType="text"
+            android:layout_marginLeft="5dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+
             />
     </LinearLayout>
 
@@ -126,7 +128,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/courseRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="275dp"
+            android:layout_height="200dp"
             tools:listitem="@layout/course_item">
 
         </androidx.recyclerview.widget.RecyclerView>

@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +29,7 @@ public class AddEditTermActivity extends AppCompatActivity {
     public static final String EXTRA_END =
             "com.example.coursescheduler.EXTRA_END";
 
-    private EditText editTermID;
+    private TextView editTermID;
     private EditText termTitle;
     private EditText startDate;
     private EditText endDate;
@@ -63,13 +64,14 @@ public class AddEditTermActivity extends AppCompatActivity {
     }
 
     private void saveTerm() {
-        String termID = editTermID.getText().toString();
+//        String termID = editTermID.getText().toString();
+        int termID = Integer.parseInt(editTermID.getText().toString());
         String title = termTitle.getText().toString();
         String start = startDate.getText().toString();
         String end = endDate.getText().toString();
 
-        if (termID.trim().isEmpty() || title.trim().isEmpty()) {
-            Toast.makeText(this, "Please enter an ID and Title", Toast.LENGTH_SHORT).show();
+        if (title.trim().isEmpty()) {
+            Toast.makeText(this, "Please enter a title", Toast.LENGTH_SHORT).show();
             return;
         }
 

@@ -7,13 +7,13 @@ import androidx.room.PrimaryKey;
 public class Term {
     @PrimaryKey(autoGenerate = true)
     private int termID;
+
     private String termTitle;
     private String startDate;
     private String endDate;
 
     // Constructor
-    public Term(int termID, String termTitle, String startDate, String endDate) {
-        this.termID = termID;
+    public Term( String termTitle, String startDate, String endDate) {
         this.termTitle = termTitle;
         this.startDate = startDate;
         this.endDate = endDate;

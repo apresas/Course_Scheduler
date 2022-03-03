@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.coursescheduler.DAO.TermDAO;
 import com.example.coursescheduler.Entity.Term;
 
-@Database(entities = {Term.class}, version = 2)
+@Database(entities = {Term.class}, version = 4)
 public abstract class ScheduleDB extends RoomDatabase {
     private static ScheduleDB instance;
     public abstract TermDAO termDAO();
@@ -40,9 +40,9 @@ public abstract class ScheduleDB extends RoomDatabase {
 
         @Override
         protected  Void doInBackground(Void... voids) {
-            termDAO.insert(new Term( 1,"Term 1", "01/01/22", "07/01/22"));
-            termDAO.insert(new Term( 2,"Spring Term", "03/01/22", "09/01/22"));
-            termDAO.insert(new Term( 3, "Term 2", "07/01/22", "01/01/23"));
+//            termDAO.insert(new Term( 1,"Term 1", "01/01/22", "07/01/22"));
+//            termDAO.insert(new Term( 2,"Spring Term", "03/01/22", "09/01/22"));
+//            termDAO.insert(new Term( 3, "Term 2", "07/01/22", "01/01/23"));
             return null;
         }
     }

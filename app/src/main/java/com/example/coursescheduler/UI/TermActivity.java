@@ -80,8 +80,7 @@ public class TermActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Term term) {
                 Intent intent = new Intent(TermActivity.this, AddEditTermActivity.class);
-                String termID = AddEditTermActivity.EXTRA_ID;
-                intent.putExtra(AddEditTermActivity.EXTRA_ID, termID);
+                intent.putExtra(AddEditTermActivity.EXTRA_ID, term.getTermID());
                 intent.putExtra(AddEditTermActivity.EXTRA_TITLE, term.getTermTitle());
                 intent.putExtra(AddEditTermActivity.EXTRA_START, term.getStartDate());
                 intent.putExtra(AddEditTermActivity.EXTRA_END, term.getEndDate());
@@ -91,17 +90,18 @@ public class TermActivity extends AppCompatActivity {
         });
     }
 
-    private ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK){
-                        int termID = result.getData().getIntExtra(AddEditTermActivity.EXTRA_ID, -1);
+//                        int termID = result.getData().getIntExtra(AddEditTermActivity.EXTRA_ID, -1);
+//                        int termID = Integer.parseInt(result.getData().getStringExtra(AddEditTermActivity.EXTRA_ID));
                         String title = result.getData().getStringExtra(AddEditTermActivity.EXTRA_TITLE);
                         String start = result.getData().getStringExtra(AddEditTermActivity.EXTRA_START);
                         String end = result.getData().getStringExtra(AddEditTermActivity.EXTRA_END);
-                        Term term = new Term(termID,title, start, end);
+                        Term term = new Term(title, start, end);
 
                         termViewModel.insert(term);
 
@@ -139,14 +139,16 @@ public class TermActivity extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    int termID = result.getData().getIntExtra(AddEditTermActivity.EXTRA_ID, -1);
+//                    int termID = result.getData().getIntExtra(AddEditTermActivity.EXTRA_ID, -1);
+//                    int termID = Integer.parseInt(result.getData().getStringExtra(AddEditTermActivity.EXTRA_ID));
                     if (result.getResultCode() == Activity.RESULT_OK){
                         String title = result.getData().getStringExtra(AddEditTermActivity.EXTRA_TITLE);
                         String start = result.getData().getStringExtra(AddEditTermActivity.EXTRA_START);
                         String end = result.getData().getStringExtra(AddEditTermActivity.EXTRA_END);
 
-                        Term term = new Term(termID,title, start, end);
-                        term.setTermID(termID);
+                        Term term = new Term(title, start, end);
+                        int ID = term.getTermID();
+                        term.setTermID(ID);
                         termViewModel.update(term);
 
                         Toast.makeText(TermActivity.this, "Updated", Toast.LENGTH_SHORT).show();

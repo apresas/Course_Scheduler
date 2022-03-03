@@ -21,10 +21,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, TermActivity.class);
         startActivity(intent);
 
-        ScheduleRepo repo = new ScheduleRepo(getApplication());
-//        Term term = new Term(1, "Term 1", "01/01/22", "05/30/22");
-//        Term term1 = new Term(2, "Term 2", "06/01/22", "01/01/23");
-//        Term term2 = new Term(3, "Spring Term", "03/01/22", "10/01/22");
+//        ScheduleRepo repo = new ScheduleRepo(getApplication());
+//        Term term = new Term( "Term 1", "01/01/22", "05/30/22");
+//        Term term1 = new Term("Term 2", "06/01/22", "01/01/23");
+//        Term term2 = new Term( "Spring Term", "03/01/22", "10/01/22");
 //        repo.insertTerm(term);
 //        repo.insertTerm(term1);
 //        repo.insertTerm(term2);
