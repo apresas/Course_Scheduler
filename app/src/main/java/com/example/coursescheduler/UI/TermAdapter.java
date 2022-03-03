@@ -29,7 +29,8 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermHolder> {
     @Override
     public void onBindViewHolder(@NonNull TermHolder holder, int position) {
         Term currentTerm = terms.get(position);
-//        holder.termIDTextView.setText(currentTerm.getTermID());
+        int ID = currentTerm.getTermID();
+        holder.termIDTextView.setText(Integer.toString(ID));
         holder.textViewTitle.setText(currentTerm.getTermTitle());
         holder.textViewStart.setText(currentTerm.getStartDate());
         holder.textViewEnd.setText(currentTerm.getEndDate());

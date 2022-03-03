@@ -12,10 +12,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.coursescheduler.Database.ScheduleRepo;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddEditTermActivity extends AppCompatActivity {
 
@@ -34,6 +39,9 @@ public class AddEditTermActivity extends AppCompatActivity {
     private EditText startDate;
     private EditText endDate;
     private RecyclerView recyclerView;
+    private ScheduleRepo repository;
+    private LiveData<List<Term>> allTerms;
+    Term term;
 
 
     @Override
@@ -48,9 +56,11 @@ public class AddEditTermActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.termRecycler_view);
 
 
+
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
 
         Intent intent = getIntent();
+
 
         if(intent.hasExtra(EXTRA_ID)) {
             setTitle("Edit Term");
@@ -65,7 +75,6 @@ public class AddEditTermActivity extends AppCompatActivity {
 
     private void saveTerm() {
 //        String termID = editTermID.getText().toString();
-        int termID = Integer.parseInt(editTermID.getText().toString());
         String title = termTitle.getText().toString();
         String start = startDate.getText().toString();
         String end = endDate.getText().toString();
@@ -76,19 +85,18 @@ public class AddEditTermActivity extends AppCompatActivity {
         }
 
         Intent data = new Intent();
-        data.putExtra(EXTRA_ID, termID);
+//        data.putExtra(EXTRA_ID, termID);
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_START, start);
         data.putExtra(EXTRA_END, end);
 
-
         int id = getIntent().getIntExtra(EXTRA_ID, -1);
-        if(id != -1) {
+        if (id != -1) {
             data.putExtra(EXTRA_ID, id);
         }
-
         setResult(RESULT_OK, data);
         finish();
+
 
     }
 

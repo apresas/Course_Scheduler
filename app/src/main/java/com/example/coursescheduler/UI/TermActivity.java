@@ -96,14 +96,14 @@ public class TermActivity extends AppCompatActivity {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK){
-//                        int termID = result.getData().getIntExtra(AddEditTermActivity.EXTRA_ID, -1);
-//                        int termID = Integer.parseInt(result.getData().getStringExtra(AddEditTermActivity.EXTRA_ID));
                         String title = result.getData().getStringExtra(AddEditTermActivity.EXTRA_TITLE);
                         String start = result.getData().getStringExtra(AddEditTermActivity.EXTRA_START);
                         String end = result.getData().getStringExtra(AddEditTermActivity.EXTRA_END);
+
                         Term term = new Term(title, start, end);
 
                         termViewModel.insert(term);
+
 
                         Toast.makeText(TermActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
@@ -139,15 +139,13 @@ public class TermActivity extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-//                    int termID = result.getData().getIntExtra(AddEditTermActivity.EXTRA_ID, -1);
-//                    int termID = Integer.parseInt(result.getData().getStringExtra(AddEditTermActivity.EXTRA_ID));
+                    int ID = result.getData().getIntExtra(AddEditTermActivity.EXTRA_ID, -1);
                     if (result.getResultCode() == Activity.RESULT_OK){
                         String title = result.getData().getStringExtra(AddEditTermActivity.EXTRA_TITLE);
                         String start = result.getData().getStringExtra(AddEditTermActivity.EXTRA_START);
                         String end = result.getData().getStringExtra(AddEditTermActivity.EXTRA_END);
 
                         Term term = new Term(title, start, end);
-                        int ID = term.getTermID();
                         term.setTermID(ID);
                         termViewModel.update(term);
 
