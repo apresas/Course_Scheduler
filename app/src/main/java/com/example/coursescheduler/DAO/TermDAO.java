@@ -28,4 +28,7 @@ public interface TermDAO {
 
     @Query("SELECT * FROM terms ORDER BY termID DESC")
     LiveData<List<Term>> getAllTerms();
+
+//    @Query("SELECT termID FROM terms WHERE termID ==")
+//    void getTermID();
 }

@@ -12,7 +12,7 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/text_view_priority"
+            android:id="@+id/text_view_courseID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -20,11 +20,11 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         <TextView
-            android:id="@+id/text_view_title"
+            android:id="@+id/text_view_course_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_toStartOf="@id/text_view_priority"
+            android:layout_toStartOf="@id/text_view_courseID"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Course Title"
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_below="@+id/text_view_title"
+            android:layout_below="@+id/text_view_course_title"
             >
 
         <TextView
@@ -47,6 +47,7 @@
             android:text="Instructor:" />
 
             <TextView
+                android:id="@+id/edit_instructor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -70,12 +71,12 @@
                 android:text="Start:" />
 
             <TextView
+                android:id="@+id/edit_course_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/text_view_start"
                 android:layout_marginLeft="5dp"
-                android:text="Start"
-                ></TextView>
+                android:layout_toRightOf="@id/text_view_start"
+                android:text="Start"></TextView>
         </RelativeLayout>
 
         <RelativeLayout
@@ -95,6 +96,7 @@
                 android:text="End:" />
 
             <TextView
+                android:id="@+id/edit_course_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"

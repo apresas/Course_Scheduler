@@ -14,13 +14,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coursescheduler.Database.ScheduleRepo;
+import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -51,10 +58,7 @@ public class AddEditTermActivity extends AppCompatActivity {
     final Calendar calendarStart = Calendar.getInstance();
     String dateFormat = "MM/dd/yy";
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
-    private RecyclerView recyclerView;
-    private ScheduleRepo repository;
-    private LiveData<List<Term>> allTerms;
-    Term term;
+    private CourseViewModel courseViewModel;
 
 
     @Override
@@ -66,9 +70,64 @@ public class AddEditTermActivity extends AppCompatActivity {
         termTitle = findViewById(R.id.edit_text_termTitle);
         startDate = findViewById(R.id.editStart);
         endDate = findViewById(R.id.editEnd);
-        RecyclerView recyclerView = findViewById(R.id.termRecycler_view);
+//        RecyclerView recyclerView = findViewById(R.id.termRecycler_view);
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
+
+        FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_course);
+        buttonAddTerm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+
+//                Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
+//                activityResultLauncher.launch(intent);
+            }
+        });
+
+        RecyclerView recyclerView = findViewById(R.id.courseRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+        final CourseAdapter adapter = new CourseAdapter();
+        recyclerView.setAdapter(adapter);
+
+        courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
+
+        courseViewModel.getAllCourses().observe(this, new Observer<List<Course>>() {
+            @Override
+            public void onChanged(List<Course> courses) {
+                adapter.setCourse(courses);
+            }
+        });
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                courseViewModel.delete(adapter.getCourseAt(viewHolder.getAdapterPosition()));
+                Toast.makeText(AddEditTermActivity.this, "Course Deleted", Toast.LENGTH_SHORT).show();
+            }
+        }).attachToRecyclerView(recyclerView);
+
+        adapter.setOnItemClickListener(new CourseAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Course course) {
+//                Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
+//                intent.putExtra(AddEditCourseActivity.EXTRA_ID, course.getCourseID());
+//                intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
+//                intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
+//                intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
+//                activityUpdateResultLauncher.launch(intent);
+
+            }
+        });
+
+
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

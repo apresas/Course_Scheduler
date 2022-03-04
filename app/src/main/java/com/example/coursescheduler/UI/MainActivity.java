@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.coursescheduler.Database.ScheduleRepo;
+import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 
@@ -28,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
 //        repo.insertTerm(term);
 //        repo.insertTerm(term1);
 //        repo.insertTerm(term2);
+//
+//        Course course = new Course("Software 1", "John Doe", "03/01/22", "04/03/22");
+//        Course course1 = new Course("Software 2", "Jane Doe", "05/01/22", "06/01/22");
+//        Course course2 = new Course("Mobile App", "Jim Doe", "06/01/22", "07/01/22");
+//        repo.insertCourse(course);
+//        repo.insertCourse(course1);
+//        repo.insertCourse(course2);
 
 
     }

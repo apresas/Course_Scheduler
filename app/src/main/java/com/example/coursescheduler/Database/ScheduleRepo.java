@@ -5,7 +5,9 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.coursescheduler.DAO.CourseDAO;
 import com.example.coursescheduler.DAO.TermDAO;
+import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Term;
 
 import java.util.List;
@@ -13,11 +15,17 @@ import java.util.List;
 public class ScheduleRepo {
     private TermDAO termDAO;
     private LiveData<List<Term>> allTerms;
+    private CourseDAO courseDAO;
+    private LiveData<List<Course>> allCourses;
 
     public ScheduleRepo(Application application) {
         ScheduleDB database = ScheduleDB.getInstance(application);
         termDAO = database.termDAO();
         allTerms = termDAO.getAllTerms();
+        courseDAO = database.courseDAO();
+        allCourses = courseDAO.getAllCourses();
+
+
     }
 
     // TERM
@@ -92,6 +100,82 @@ public class ScheduleRepo {
         @Override
         protected Void doInBackground(Void... voids) {
             termDAO.deleteAllTerms();
+            return null;
+        }
+    }
+
+    // COURSE
+    public void insertCourse(Course course){
+        new InsertCourseAsyncTask(courseDAO).execute(course);
+    }
+
+    public void updateCourse(Course course){
+        new UpdateCourseAsyncTask(courseDAO).execute(course);
+    }
+
+    public void deleteCourse(Course course){
+        new DeleteCourseAsyncTask(courseDAO).execute(course);
+    }
+
+    public void deleteAllCourses() {new DeleteAllCoursesAsyncTask(courseDAO).execute();}
+
+    public LiveData<List<Course>> getAllCourses() {
+        return allCourses;
+    }
+
+    // COURSE ASYNC
+    private static class InsertCourseAsyncTask extends AsyncTask<Course, Void, Void> {
+        private CourseDAO courseDAO;
+
+        private InsertCourseAsyncTask(CourseDAO courseDAO) {
+            this.courseDAO = courseDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Course... courses) {
+           courseDAO.insert(courses[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateCourseAsyncTask extends AsyncTask<Course, Void, Void> {
+        private CourseDAO courseDAO;
+
+        private UpdateCourseAsyncTask(CourseDAO courseDAO) {
+            this.courseDAO = courseDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Course... courses) {
+            courseDAO.update(courses[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteCourseAsyncTask extends AsyncTask<Course, Void, Void> {
+        private CourseDAO courseDAO;
+
+        private DeleteCourseAsyncTask(CourseDAO courseDAO) {
+            this.courseDAO = courseDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Course... courses) {
+            courseDAO.delete(courses[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteAllCoursesAsyncTask extends AsyncTask<Void, Void, Void> {
+        private CourseDAO courseDAO;
+
+        private DeleteAllCoursesAsyncTask(CourseDAO courseDAO) {
+            this.courseDAO = courseDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            courseDAO.deleteAllCourses();
             return null;
         }
     }
