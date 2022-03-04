@@ -146,7 +146,6 @@
                 android:layout_gravity="bottom|end"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:layout_margin="20dp"
                 android:src="@drawable/ic_add"
                 app:backgroundTint="#002f51"
                 app:tint="@color/white"
