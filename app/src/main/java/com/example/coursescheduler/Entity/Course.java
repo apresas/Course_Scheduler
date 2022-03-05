@@ -2,6 +2,9 @@ package com.example.coursescheduler.Entity;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.Query;
+
+import com.example.coursescheduler.DAO.CourseDAO;
 
 @Entity(tableName = "courses")
 public class Course {
@@ -12,13 +15,15 @@ public class Course {
     private String instructorName;
     private String startDate;
     private String endDate;
+    private int termID;
 
     // Constructor
-    public Course(String courseTitle, String instructorName, String startDate, String endDate) {
+    public Course(String courseTitle, String instructorName, String startDate, String endDate, int termID) {
         this.courseTitle = courseTitle;
         this.instructorName = instructorName;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.termID = termID;
     }
 
     // Getters
@@ -42,6 +47,8 @@ public class Course {
         return endDate;
     }
 
+    public int getTermID() {return termID;}
+
     // Setters
 
     public void setCourseID(int courseID) {
@@ -62,5 +69,9 @@ public class Course {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public void setTermID(int termID) {
+        this.termID = termID;
     }
 }

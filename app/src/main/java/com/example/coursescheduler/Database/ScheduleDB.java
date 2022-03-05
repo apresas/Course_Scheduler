@@ -9,16 +9,19 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.coursescheduler.DAO.AssessmentDAO;
 import com.example.coursescheduler.DAO.CourseDAO;
 import com.example.coursescheduler.DAO.TermDAO;
+import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Term;
 
-@Database(entities = {Term.class, Course.class}, version = 5)
+@Database(entities = {Term.class, Course.class, Assessment.class}, version = 7)
 public abstract class ScheduleDB extends RoomDatabase {
     private static ScheduleDB instance;
     public abstract TermDAO termDAO();
     public abstract CourseDAO courseDAO();
+    public abstract AssessmentDAO assessmentDAO();
 
     public static synchronized  ScheduleDB getInstance(Context context) {
         if (instance == null) {

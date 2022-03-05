@@ -29,4 +29,7 @@ public interface CourseDAO {
 
     @Query("SELECT * FROM courses ORDER BY courseID DESC")
     LiveData<List<Course>> getAllCourses();
+
+//    @Query("SELECT termID FROM courses WHERE termID = termID")
+//    void getTermID();
 }

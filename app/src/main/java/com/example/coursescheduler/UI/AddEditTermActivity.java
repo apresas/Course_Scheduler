@@ -70,7 +70,6 @@ public class AddEditTermActivity extends AppCompatActivity {
         termTitle = findViewById(R.id.edit_text_termTitle);
         startDate = findViewById(R.id.editStart);
         endDate = findViewById(R.id.editEnd);
-//        RecyclerView recyclerView = findViewById(R.id.termRecycler_view);
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
 
