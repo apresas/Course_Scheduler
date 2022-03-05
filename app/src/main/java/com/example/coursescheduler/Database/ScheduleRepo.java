@@ -5,8 +5,10 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.coursescheduler.DAO.AssessmentDAO;
 import com.example.coursescheduler.DAO.CourseDAO;
 import com.example.coursescheduler.DAO.TermDAO;
+import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Term;
 
@@ -17,6 +19,8 @@ public class ScheduleRepo {
     private LiveData<List<Term>> allTerms;
     private CourseDAO courseDAO;
     private LiveData<List<Course>> allCourses;
+    private AssessmentDAO assessmentDAO;
+    private LiveData<List<Assessment>> allAssessments;
 
     public ScheduleRepo(Application application) {
         ScheduleDB database = ScheduleDB.getInstance(application);
@@ -24,8 +28,8 @@ public class ScheduleRepo {
         allTerms = termDAO.getAllTerms();
         courseDAO = database.courseDAO();
         allCourses = courseDAO.getAllCourses();
-
-
+        assessmentDAO = database.assessmentDAO();
+        allAssessments = assessmentDAO.getAllAssessments();
     }
 
     // TERM
@@ -176,6 +180,82 @@ public class ScheduleRepo {
         @Override
         protected Void doInBackground(Void... voids) {
             courseDAO.deleteAllCourses();
+            return null;
+        }
+    }
+
+    // ASSESSMENT
+    public void insertAssessment(Assessment assessment){
+        new InsertAssessmentAsyncTask(assessmentDAO).execute(assessment);
+    }
+
+    public void updateAssessment(Assessment assessment){
+        new UpdateAssessmentAsyncTask(assessmentDAO).execute(assessment);
+    }
+
+    public void deleteAssessment(Assessment assessment){
+        new DeleteAssessmentAsyncTask(assessmentDAO).execute(assessment);
+    }
+
+    public void deleteAllAssessments() {new DeleteAllAssessmentsAsyncTask(assessmentDAO).execute();}
+
+    public LiveData<List<Assessment>> getAllAssessments() {
+        return allAssessments;
+    }
+
+    // ASSESSMENT ASYNC
+    private static class InsertAssessmentAsyncTask extends AsyncTask<Assessment, Void, Void> {
+        private AssessmentDAO assessmentDAO;
+
+        private InsertAssessmentAsyncTask(AssessmentDAO assessmentDAO) {
+            this.assessmentDAO = assessmentDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Assessment... assessments) {
+            assessmentDAO.insert(assessments[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateAssessmentAsyncTask extends AsyncTask<Assessment, Void, Void> {
+        private AssessmentDAO assessmentDAO;
+
+        private UpdateAssessmentAsyncTask(AssessmentDAO assessmentDAO) {
+            this.assessmentDAO = assessmentDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Assessment... assessments) {
+            assessmentDAO.update(assessments[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteAssessmentAsyncTask extends AsyncTask<Assessment, Void, Void> {
+        private AssessmentDAO assessmentDAO;
+
+        private DeleteAssessmentAsyncTask(AssessmentDAO assessmentDAO) {
+            this.assessmentDAO = assessmentDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Assessment... assessments) {
+            assessmentDAO.delete(assessments[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteAllAssessmentsAsyncTask extends AsyncTask<Void, Void, Void> {
+        private AssessmentDAO assessmentDAO;
+
+        private DeleteAllAssessmentsAsyncTask(AssessmentDAO assessmentDAO) {
+            this.assessmentDAO = assessmentDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            assessmentDAO.deleteAllAssessments();
             return null;
         }
     }

@@ -73,7 +73,10 @@ public class AddEditTermActivity extends AppCompatActivity {
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
 
+        // Floating Button
         FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_course);
+
+        // Go to AddEditCourse
         buttonAddTerm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -83,13 +86,16 @@ public class AddEditTermActivity extends AppCompatActivity {
             }
         });
 
+        // Recycler View
         RecyclerView recyclerView = findViewById(R.id.courseRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
+        // Adapter
         final CourseAdapter adapter = new CourseAdapter();
         recyclerView.setAdapter(adapter);
 
+        // View Model
         courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
 
         courseViewModel.getAllCourses().observe(this, new Observer<List<Course>>() {
@@ -99,6 +105,7 @@ public class AddEditTermActivity extends AppCompatActivity {
             }
         });
 
+        // Touch helper
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -113,6 +120,7 @@ public class AddEditTermActivity extends AppCompatActivity {
             }
         }).attachToRecyclerView(recyclerView);
 
+        // OnClick Fill Form
         adapter.setOnItemClickListener(new CourseAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Course course) {
@@ -126,7 +134,7 @@ public class AddEditTermActivity extends AppCompatActivity {
             }
         });
 
-
+        // Start Date onClick
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,7 +150,7 @@ public class AddEditTermActivity extends AppCompatActivity {
                         calendarStart.get(Calendar.MONTH), calendarStart.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
+        // End Date onClick
         endDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -157,7 +165,7 @@ public class AddEditTermActivity extends AppCompatActivity {
                         calendarStart.get(Calendar.MONTH), calendarStart.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
+        // Start Date Picker
         startDP = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
@@ -167,7 +175,7 @@ public class AddEditTermActivity extends AppCompatActivity {
                 updateLabelStart();
             }
         };
-
+        // End Date Picker
         endDP = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
@@ -179,10 +187,9 @@ public class AddEditTermActivity extends AppCompatActivity {
         };
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
-
+        //Intent
         Intent intent = getIntent();
-
-
+        // Select Label
         if(intent.hasExtra(EXTRA_ID)) {
             setTitle("Edit Term");
             editTermID.setText(intent.getStringExtra(EXTRA_ID));
