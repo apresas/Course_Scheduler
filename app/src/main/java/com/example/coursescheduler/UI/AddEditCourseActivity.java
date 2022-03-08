@@ -77,6 +77,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
 
+
         // Floating Button
         FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_assessment);
 
@@ -195,14 +196,15 @@ public class AddEditCourseActivity extends AppCompatActivity {
         Intent intent = getIntent();
         // Select Label
         if(intent.hasExtra(EXTRA_ID)) {
-            setTitle("Edit Assessment");
+            setTitle("Edit Course");
             editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
             courseTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             instructorName.setText(intent.getStringExtra(EXTRA_INSTRUCTOR));
             startDate.setText(intent.getStringExtra(EXTRA_START));
             endDate.setText(intent.getStringExtra(EXTRA_END));
         } else {
-            setTitle("Add Assessment");
+            setTitle("Add Course");
+//            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
 //            int ID = courseDAO.getTermID();
 ////            String ID = String.valueOf(courseDAO.getTermID());
 ////            int ID = courseDAO.getTermID();
@@ -232,16 +234,16 @@ public class AddEditCourseActivity extends AppCompatActivity {
         }
 
         Intent data = new Intent();
-        data.putExtra(EXTRA_TERM_ID, termID);
+//        data.putExtra(EXTRA_TERM_ID, termID);
         data.putExtra(EXTRA_INSTRUCTOR, instructor);
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_START, start);
         data.putExtra(EXTRA_END, end);
 
-        int id = getIntent().getIntExtra(EXTRA_TERM_ID, -1);
-        if (id != -1) {
-            data.putExtra(EXTRA_TERM_ID, id);
-        }
+//        int id = getIntent().getIntExtra(EXTRA_TERM_ID, -1);
+//        if (id != -1) {
+//            data.putExtra(EXTRA_TERM_ID, id);
+//        }
         setResult(RESULT_OK, data);
         finish();
 

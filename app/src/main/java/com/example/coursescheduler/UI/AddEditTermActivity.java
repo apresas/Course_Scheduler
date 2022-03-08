@@ -47,8 +47,6 @@ public class AddEditTermActivity extends AppCompatActivity {
 
     public static final String EXTRA_ID =
             "com.example.coursescheduler.EXTRA_ID";
-    public static final String EXTRA_COURSE_ID =
-            "com.example.coursescheduler.EXTRA_COURSE_ID";
     public static final String EXTRA_TITLE =
             "com.example.coursescheduler.EXTRA_TITLE";
     public static final String EXTRA_START =
@@ -66,6 +64,9 @@ public class AddEditTermActivity extends AppCompatActivity {
     String dateFormat = "MM/dd/yy";
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
     private CourseViewModel courseViewModel;
+    Term term;
+
+
 
 
     @Override
@@ -79,6 +80,9 @@ public class AddEditTermActivity extends AppCompatActivity {
         endDate = findViewById(R.id.editEnd);
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
+
+
+
 
         // Floating Button
         FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_course);
@@ -132,9 +136,8 @@ public class AddEditTermActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Course course) {
                 Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
-
-                intent.putExtra(AddEditCourseActivity.EXTRA_ID, course.getCourseID());
-                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, course.getTermID());
+                intent.putExtra(AddEditCourseActivity.EXTRA_ID, String.valueOf(course.getCourseID()));
+                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, String.valueOf(course.getTermID()));
                 intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
                 intent.putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, course.getInstructorName());
                 intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
@@ -248,16 +251,13 @@ public class AddEditTermActivity extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-//                    int ID = result.getData().getIntExtra(AddEditTermActivity.EXTRA_ID, -1);
-
                     if (result.getResultCode() == Activity.RESULT_OK){
                         String title = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TITLE);
                         String instructor = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR);
                         String start = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_START);
                         String end = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_END);
                         int termID = result.getData().getIntExtra(AddEditCourseActivity.EXTRA_TERM_ID, -1);
-//                        String ID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
-//                        int termID = Integer.parseInt(ID);
+//                        String termID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
 
                         Course course = new Course(title, instructor, start, end, termID);
 
@@ -298,15 +298,18 @@ public class AddEditTermActivity extends AppCompatActivity {
                 @Override
                 public void onActivityResult(ActivityResult result) {
 //                    int termID = result.getData().getIntExtra(AddEditTermActivity.EXTRA_ID, -1);
+//                    int ID = result.getData().getIntExtra(AddEditCourseActivity.EXTRA_TERM_ID, -1);
+
 
                     if (result.getResultCode() == Activity.RESULT_OK){
                         String title = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TITLE);
                         String instructor = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR);
                         String start = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_START);
                         String end = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_END);
-//                        String termID = result.getData().getStringExtra(AddEditTermActivity.EXTRA_ID);
-                        String termID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
-                        Course course = new Course(title, instructor, start, end, Integer.parseInt(termID));
+                        String ID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
+                        int termID = Integer.parseInt(ID);
+                        Course course = new Course(title, instructor, start, end, termID);
+                        course.setTermID(termID);
                         courseViewModel.update(course);
 
                         Toast.makeText(AddEditTermActivity.this, "Updated", Toast.LENGTH_SHORT).show();

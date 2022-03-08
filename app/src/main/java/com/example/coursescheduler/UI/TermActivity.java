@@ -42,6 +42,7 @@ public class TermActivity extends AppCompatActivity {
             public void onClick(View v){
 
                 Intent intent = new Intent(TermActivity.this, AddEditTermActivity.class);
+//                int ID = term.getTermID();
                 activityResultLauncher.launch(intent);
             }
         });
@@ -80,7 +81,7 @@ public class TermActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Term term) {
                 Intent intent = new Intent(TermActivity.this, AddEditTermActivity.class);
-                intent.putExtra(AddEditTermActivity.EXTRA_ID, term.getTermID());
+                intent.putExtra(AddEditTermActivity.EXTRA_ID, String.valueOf(term.getTermID()));
                 intent.putExtra(AddEditTermActivity.EXTRA_TITLE, term.getTermTitle());
                 intent.putExtra(AddEditTermActivity.EXTRA_START, term.getStartDate());
                 intent.putExtra(AddEditTermActivity.EXTRA_END, term.getEndDate());
