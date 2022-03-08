@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coursescheduler.Entity.Course;
+import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHolder> {
     private List<Course> courses = new ArrayList();
+    private List<Term> terms = new ArrayList();
     private OnItemClickListener listener;
 
     @NonNull

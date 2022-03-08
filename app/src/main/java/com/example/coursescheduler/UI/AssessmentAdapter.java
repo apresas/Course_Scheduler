@@ -65,7 +65,7 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
         public AssessmentHolder(@NonNull View itemView) {
             super(itemView);
             assessmentIDTextView = itemView.findViewById(R.id.text_view_assessmentID);
-            textViewTitle = itemView.findViewById(R.id.text_view_course_title);
+            textViewTitle = itemView.findViewById(R.id.text_view_title);
             textViewType = itemView.findViewById(R.id.text_view_type);
             textViewStart = itemView.findViewById(R.id.text_view_assessment_start);
             textViewEnd = itemView.findViewById(R.id.text_view_assessment_end);

@@ -15,6 +15,12 @@
            android:launchMode="singleTop"
            android:exported="false"/>
 
+        <activity
+            android:name=".UI.AddEditCourseActivity"
+            android:parentActivityName=".UI.AddEditTermActivity"
+            android:launchMode="singleTop"
+            android:exported="false"/>
+
         <activity android:name=".UI.TermActivity"
             android:exported="false"/>
         <activity

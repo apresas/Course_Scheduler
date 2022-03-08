@@ -163,7 +163,7 @@
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/courseRecyclerView"
+                android:id="@+id/assessmentRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:listitem="@layout/assessment_item">
@@ -171,12 +171,12 @@
             </androidx.recyclerview.widget.RecyclerView>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/button_add_course"
+                android:id="@+id/button_add_assessment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom|end"
                 android:src="@drawable/ic_add"
                 app:backgroundTint="#002f51"
                 app:tint="@color/white"

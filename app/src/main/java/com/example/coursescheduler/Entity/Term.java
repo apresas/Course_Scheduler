@@ -19,6 +19,7 @@ public class Term {
         this.endDate = endDate;
     }
 
+
     // Getters
     public int getTermID() {
         return termID;

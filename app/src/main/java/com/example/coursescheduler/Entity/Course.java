@@ -71,7 +71,8 @@ public class Course {
         this.endDate = endDate;
     }
 
-    public void setTermID(int termID) {
+    public int setTermID(int termID) {
         this.termID = termID;
+        return termID;
     }
 }

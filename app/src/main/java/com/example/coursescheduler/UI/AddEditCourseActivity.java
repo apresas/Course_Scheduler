@@ -1,6 +1,5 @@
 package com.example.coursescheduler.UI;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,25 +9,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.NumberPicker;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.coursescheduler.Database.ScheduleRepo;
+import com.example.coursescheduler.DAO.CourseDAO;
+import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
@@ -36,28 +29,30 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEditTermActivity extends AppCompatActivity {
+public class AddEditCourseActivity extends AppCompatActivity {
 
 
     public static final String EXTRA_ID =
             "com.example.coursescheduler.EXTRA_ID";
-    public static final String EXTRA_COURSE_ID =
-            "com.example.coursescheduler.EXTRA_COURSE_ID";
+    public static final String EXTRA_TERM_ID =
+            "com.example.coursescheduler.EXTRA_TERM_ID";
     public static final String EXTRA_TITLE =
             "com.example.coursescheduler.EXTRA_TITLE";
+    public static final String EXTRA_INSTRUCTOR =
+            "com.example.coursescheduler.EXTRA_INSTRUCTOR";
     public static final String EXTRA_START =
             "com.example.coursescheduler.EXTRA_START";
     public static final String EXTRA_END =
             "com.example.coursescheduler.EXTRA_END";
 
     private TextView editTermID;
-    private EditText termTitle;
+    private EditText courseTitle;
+    private EditText instructorName;
     private TextView startDate;
     private TextView endDate;
     DatePickerDialog.OnDateSetListener startDP;
@@ -65,50 +60,52 @@ public class AddEditTermActivity extends AppCompatActivity {
     final Calendar calendarStart = Calendar.getInstance();
     String dateFormat = "MM/dd/yy";
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
-    private CourseViewModel courseViewModel;
+    private AssessmentViewModel assessmentViewModel;
+    CourseDAO courseDAO;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_term);
+        setContentView(R.layout.activity_add_course);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         editTermID = findViewById(R.id.edit_text_termID);
-        termTitle = findViewById(R.id.edit_text_termTitle);
+        courseTitle = findViewById(R.id.edit_text_courseTitle);
+        instructorName = findViewById(R.id.edit_text_instructorName);
         startDate = findViewById(R.id.editStart);
         endDate = findViewById(R.id.editEnd);
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
 
         // Floating Button
-        FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_course);
+        FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_assessment);
 
         // Go to AddEditCourse
         buttonAddTerm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
 
-                Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
-                activityResultLauncher.launch(intent);
+//                Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
+//                activityResultLauncher.launch(intent);
             }
         });
 
         // Recycler View
-        RecyclerView recyclerView = findViewById(R.id.courseRecyclerView);
+        RecyclerView recyclerView = findViewById(R.id.assessmentRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
         // Adapter
-        final CourseAdapter adapter = new CourseAdapter();
+        final AssessmentAdapter adapter = new AssessmentAdapter();
         recyclerView.setAdapter(adapter);
 
         // View Model
-        courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
+        assessmentViewModel = new ViewModelProvider(this).get(AssessmentViewModel.class);
 
-        courseViewModel.getAllCourses().observe(this, new Observer<List<Course>>() {
+        assessmentViewModel.getAllAssessments().observe(this, new Observer<List<Assessment>>() {
             @Override
-            public void onChanged(List<Course> courses) {
-                adapter.setCourse(courses);
+            public void onChanged(List<Assessment> assessments) {
+                adapter.setAssessments(assessments);
             }
         });
 
@@ -122,24 +119,21 @@ public class AddEditTermActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                courseViewModel.delete(adapter.getCourseAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(AddEditTermActivity.this, "Course Deleted", Toast.LENGTH_SHORT).show();
+                assessmentViewModel.delete(adapter.getAssessmentAt(viewHolder.getAdapterPosition()));
+                Toast.makeText(AddEditCourseActivity.this, "Course Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerView);
 
         // OnClick Fill Form
-        adapter.setOnItemClickListener(new CourseAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new AssessmentAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(Course course) {
-                Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
-
-                intent.putExtra(AddEditCourseActivity.EXTRA_ID, course.getCourseID());
-                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, course.getTermID());
-                intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
-                intent.putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, course.getInstructorName());
-                intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
-                intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
-                activityUpdateResultLauncher.launch(intent);
+            public void onItemClick(Assessment assessment) {
+//                Intent intent = new Intent(AddEditCourseActivity.this, AddEditAssessmentActivity.class);
+//                intent.putExtra(AddEditCourseActivity.EXTRA_ID, course.getCourseID());
+//                intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
+//                intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
+//                intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
+//                activityUpdateResultLauncher.launch(intent);
 
             }
         });
@@ -156,7 +150,7 @@ public class AddEditTermActivity extends AppCompatActivity {
                 }catch (ParseException e) {
                     e.printStackTrace();
                 }
-                new DatePickerDialog(AddEditTermActivity.this, startDP, calendarStart.get(Calendar.YEAR),
+                new DatePickerDialog(AddEditCourseActivity.this, startDP, calendarStart.get(Calendar.YEAR),
                         calendarStart.get(Calendar.MONTH), calendarStart.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
@@ -171,7 +165,7 @@ public class AddEditTermActivity extends AppCompatActivity {
                 }catch (ParseException e) {
                     e.printStackTrace();
                 }
-                new DatePickerDialog(AddEditTermActivity.this, endDP, calendarStart.get(Calendar.YEAR),
+                new DatePickerDialog(AddEditCourseActivity.this, endDP, calendarStart.get(Calendar.YEAR),
                         calendarStart.get(Calendar.MONTH), calendarStart.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
@@ -201,13 +195,20 @@ public class AddEditTermActivity extends AppCompatActivity {
         Intent intent = getIntent();
         // Select Label
         if(intent.hasExtra(EXTRA_ID)) {
-            setTitle("Edit Term");
-            editTermID.setText(intent.getStringExtra(EXTRA_ID));
-            termTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+            setTitle("Edit Assessment");
+            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
+            courseTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+            instructorName.setText(intent.getStringExtra(EXTRA_INSTRUCTOR));
             startDate.setText(intent.getStringExtra(EXTRA_START));
             endDate.setText(intent.getStringExtra(EXTRA_END));
         } else {
-            setTitle("Add Term");
+            setTitle("Add Assessment");
+//            int ID = courseDAO.getTermID();
+////            String ID = String.valueOf(courseDAO.getTermID());
+////            int ID = courseDAO.getTermID();
+//            editTermID.setText(ID);
+////            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
+
         }
 
 
@@ -218,10 +219,12 @@ public class AddEditTermActivity extends AppCompatActivity {
         endDate.setText(sdf.format(calendarStart.getTime()));
     }
 
-    private void saveTerm() {
-        String title = termTitle.getText().toString();
+    private void saveCourse() {
+        String title = courseTitle.getText().toString();
+        String instructor = instructorName.getText().toString();
         String start = startDate.getText().toString();
         String end = endDate.getText().toString();
+        String termID = editTermID.getText().toString();
 
         if (title.trim().isEmpty()) {
             Toast.makeText(this, "Please enter a title", Toast.LENGTH_SHORT).show();
@@ -229,13 +232,15 @@ public class AddEditTermActivity extends AppCompatActivity {
         }
 
         Intent data = new Intent();
+        data.putExtra(EXTRA_TERM_ID, termID);
+        data.putExtra(EXTRA_INSTRUCTOR, instructor);
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_START, start);
         data.putExtra(EXTRA_END, end);
 
-        int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        int id = getIntent().getIntExtra(EXTRA_TERM_ID, -1);
         if (id != -1) {
-            data.putExtra(EXTRA_ID, id);
+            data.putExtra(EXTRA_TERM_ID, id);
         }
         setResult(RESULT_OK, data);
         finish();
@@ -243,78 +248,22 @@ public class AddEditTermActivity extends AppCompatActivity {
 
     }
 
-    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-//                    int ID = result.getData().getIntExtra(AddEditTermActivity.EXTRA_ID, -1);
-
-                    if (result.getResultCode() == Activity.RESULT_OK){
-                        String title = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TITLE);
-                        String instructor = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR);
-                        String start = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_START);
-                        String end = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_END);
-                        int termID = result.getData().getIntExtra(AddEditCourseActivity.EXTRA_TERM_ID, -1);
-//                        String ID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
-//                        int termID = Integer.parseInt(ID);
-
-                        Course course = new Course(title, instructor, start, end, termID);
-
-                        courseViewModel.insert(course);
-
-
-                        Toast.makeText(AddEditTermActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-
-                    }else {
-                        Toast.makeText(AddEditTermActivity.this, "Unsuccessful", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-    );
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_terms_menu, menu);
+        menuInflater.inflate(R.menu.add_courses_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.save_term:
-                saveTerm();
+            case R.id.save_course:
+                saveCourse();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
 
         }
     }
-
-    private ActivityResultLauncher<Intent> activityUpdateResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-//                    int termID = result.getData().getIntExtra(AddEditTermActivity.EXTRA_ID, -1);
-
-                    if (result.getResultCode() == Activity.RESULT_OK){
-                        String title = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TITLE);
-                        String instructor = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR);
-                        String start = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_START);
-                        String end = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_END);
-//                        String termID = result.getData().getStringExtra(AddEditTermActivity.EXTRA_ID);
-                        String termID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
-                        Course course = new Course(title, instructor, start, end, Integer.parseInt(termID));
-                        courseViewModel.update(course);
-
-                        Toast.makeText(AddEditTermActivity.this, "Updated", Toast.LENGTH_SHORT).show();
-
-                    }else {
-                        Toast.makeText(AddEditTermActivity.this, "Unsuccessful", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-    );
 }

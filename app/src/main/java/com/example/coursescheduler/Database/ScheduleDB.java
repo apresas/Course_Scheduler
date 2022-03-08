@@ -16,7 +16,7 @@ import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Term;
 
-@Database(entities = {Term.class, Course.class, Assessment.class}, version = 7)
+@Database(entities = {Term.class, Course.class, Assessment.class}, version = 11)
 public abstract class ScheduleDB extends RoomDatabase {
     private static ScheduleDB instance;
     public abstract TermDAO termDAO();
