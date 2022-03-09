@@ -37,7 +37,7 @@ import java.util.Locale;
 public class AddEditCourseActivity extends AppCompatActivity {
 
 
-    public static final String EXTRA_ID =
+    public static final String EXTRA_COURSE_ID =
             "com.example.coursescheduler.EXTRA_ID";
     public static final String EXTRA_TERM_ID =
             "com.example.coursescheduler.EXTRA_TERM_ID";
@@ -195,7 +195,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
         //Intent
         Intent intent = getIntent();
         // Select Label
-        if(intent.hasExtra(EXTRA_ID)) {
+        if(intent.hasExtra(EXTRA_COURSE_ID)) {
             setTitle("Edit Course");
             editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
             courseTitle.setText(intent.getStringExtra(EXTRA_TITLE));
@@ -204,12 +204,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
             endDate.setText(intent.getStringExtra(EXTRA_END));
         } else {
             setTitle("Add Course");
-//            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
-//            int ID = courseDAO.getTermID();
-////            String ID = String.valueOf(courseDAO.getTermID());
-////            int ID = courseDAO.getTermID();
-//            editTermID.setText(ID);
-////            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
+            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
 
         }
 
@@ -228,22 +223,23 @@ public class AddEditCourseActivity extends AppCompatActivity {
         String end = endDate.getText().toString();
         String termID = editTermID.getText().toString();
 
-        if (title.trim().isEmpty()) {
-            Toast.makeText(this, "Please enter a title", Toast.LENGTH_SHORT).show();
+        if (title.trim().isEmpty() || instructor.trim().isEmpty()) {
+            Toast.makeText(this, "Please enter a title and instructor name", Toast.LENGTH_SHORT).show();
             return;
         }
 
         Intent data = new Intent();
-//        data.putExtra(EXTRA_TERM_ID, termID);
+        data.putExtra(EXTRA_TERM_ID, termID);
         data.putExtra(EXTRA_INSTRUCTOR, instructor);
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_START, start);
         data.putExtra(EXTRA_END, end);
 
-//        int id = getIntent().getIntExtra(EXTRA_TERM_ID, -1);
-//        if (id != -1) {
-//            data.putExtra(EXTRA_TERM_ID, id);
-//        }
+        int id = getIntent().getIntExtra(EXTRA_COURSE_ID, -1);
+        if (id != -1) {
+            System.out.println(EXTRA_COURSE_ID);
+            data.putExtra(EXTRA_COURSE_ID, id);
+        }
         setResult(RESULT_OK, data);
         finish();
 

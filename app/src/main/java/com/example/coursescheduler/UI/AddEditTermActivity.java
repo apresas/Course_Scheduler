@@ -93,6 +93,8 @@ public class AddEditTermActivity extends AppCompatActivity {
             public void onClick(View v){
 
                 Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
+                String termID = editTermID.getText().toString();
+                intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, termID);
                 activityResultLauncher.launch(intent);
             }
         });
@@ -136,7 +138,8 @@ public class AddEditTermActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Course course) {
                 Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
-                intent.putExtra(AddEditCourseActivity.EXTRA_ID, String.valueOf(course.getCourseID()));
+//                intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, String.valueOf(course.getCourseID()));
+                intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, course.getCourseID());
                 intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, String.valueOf(course.getTermID()));
                 intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
                 intent.putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, course.getInstructorName());
@@ -256,10 +259,10 @@ public class AddEditTermActivity extends AppCompatActivity {
                         String instructor = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR);
                         String start = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_START);
                         String end = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_END);
-                        int termID = result.getData().getIntExtra(AddEditCourseActivity.EXTRA_TERM_ID, -1);
-//                        String termID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
+                        String termID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
+                        int ID = Integer.parseInt(termID);
 
-                        Course course = new Course(title, instructor, start, end, termID);
+                        Course course = new Course(title, instructor, start, end, ID);
 
                         courseViewModel.insert(course);
 
@@ -297,10 +300,7 @@ public class AddEditTermActivity extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-//                    int termID = result.getData().getIntExtra(AddEditTermActivity.EXTRA_ID, -1);
-//                    int ID = result.getData().getIntExtra(AddEditCourseActivity.EXTRA_TERM_ID, -1);
-
-
+                    int courseID = result.getData().getIntExtra(AddEditCourseActivity.EXTRA_COURSE_ID, -1);
                     if (result.getResultCode() == Activity.RESULT_OK){
                         String title = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TITLE);
                         String instructor = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR);
@@ -308,14 +308,15 @@ public class AddEditTermActivity extends AppCompatActivity {
                         String end = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_END);
                         String ID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
                         int termID = Integer.parseInt(ID);
+
                         Course course = new Course(title, instructor, start, end, termID);
-                        course.setTermID(termID);
+                        course.setCourseID(courseID);
                         courseViewModel.update(course);
 
                         Toast.makeText(AddEditTermActivity.this, "Updated", Toast.LENGTH_SHORT).show();
 
                     }else {
-                        Toast.makeText(AddEditTermActivity.this, "Unsuccessful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddEditTermActivity.this, "NOT Updated", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
