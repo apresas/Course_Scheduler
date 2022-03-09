@@ -45,6 +45,8 @@ import java.util.Locale;
 public class AddEditTermActivity extends AppCompatActivity {
 
 
+    public static final String EXTRA_ID_DISPLAY =
+            "com.example.coursescheduler.EXTRA_ID";
     public static final String EXTRA_ID =
             "com.example.coursescheduler.EXTRA_ID";
     public static final String EXTRA_TITLE =
@@ -208,7 +210,7 @@ public class AddEditTermActivity extends AppCompatActivity {
         // Select Label
         if(intent.hasExtra(EXTRA_ID)) {
             setTitle("Edit Term");
-            editTermID.setText(intent.getStringExtra(EXTRA_ID));
+            editTermID.setText(intent.getStringExtra(EXTRA_ID_DISPLAY));
             termTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             startDate.setText(intent.getStringExtra(EXTRA_START));
             endDate.setText(intent.getStringExtra(EXTRA_END));
