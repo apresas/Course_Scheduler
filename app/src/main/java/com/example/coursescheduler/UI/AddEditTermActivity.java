@@ -300,7 +300,6 @@ public class AddEditTermActivity extends AppCompatActivity {
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    int courseID = result.getData().getIntExtra(AddEditCourseActivity.EXTRA_COURSE_ID, -1);
                     if (result.getResultCode() == Activity.RESULT_OK){
                         String title = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TITLE);
                         String instructor = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR);
@@ -308,6 +307,7 @@ public class AddEditTermActivity extends AppCompatActivity {
                         String end = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_END);
                         String ID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
                         int termID = Integer.parseInt(ID);
+                        int courseID = result.getData().getIntExtra(AddEditCourseActivity.EXTRA_COURSE_ID, -1);
 
                         Course course = new Course(title, instructor, start, end, termID);
                         course.setCourseID(courseID);
