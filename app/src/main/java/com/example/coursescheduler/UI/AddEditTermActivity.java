@@ -46,7 +46,7 @@ public class AddEditTermActivity extends AppCompatActivity {
 
 
     public static final String EXTRA_ID_DISPLAY =
-            "com.example.coursescheduler.EXTRA_ID";
+            "com.example.coursescheduler.EXTRA_ID_DISPLAY";
     public static final String EXTRA_ID =
             "com.example.coursescheduler.EXTRA_ID";
     public static final String EXTRA_TITLE =

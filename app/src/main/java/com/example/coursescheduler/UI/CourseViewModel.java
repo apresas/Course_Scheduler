@@ -16,11 +16,13 @@ public class CourseViewModel extends AndroidViewModel {
 
     private ScheduleRepo repository;
     private LiveData<List<Course>> allCourses;
+    private LiveData<List<Course>> assignedCourses;
 
     public CourseViewModel(@NonNull Application application) {
         super(application);
         repository = new ScheduleRepo(application);
         allCourses = repository.getAllCourses();
+        assignedCourses = repository.getAssignedCourses();
     }
 
     public void insert(Course course) {
@@ -41,5 +43,9 @@ public class CourseViewModel extends AndroidViewModel {
 
     public LiveData<List<Course>> getAllCourses() {
         return allCourses;
+    }
+
+    public LiveData<List<Course>> getAssignedCourses() {
+        return assignedCourses;
     }
 }

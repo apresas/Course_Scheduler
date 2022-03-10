@@ -30,8 +30,12 @@ public interface CourseDAO {
     @Query("SELECT * FROM courses ORDER BY courseID DESC")
     LiveData<List<Course>> getAllCourses();
 
-    @Query("SELECT termID FROM courses")
-    int getTermID();
-//    @Query("SELECT termID FROM courses WHERE termID = termID")
-//    void getTermID();
+//    @Query("SELECT * FROM COURSES, TERMS WHERE COURSES.termID = TERMS.termID")
+//    LiveData<List<Course>> getAssignedCourses();
+
+    @Query("SELECT * FROM COURSES WHERE (SELECT termID FROM TERMS WHERE COURSES.termID = TERMS.termID)")
+    LiveData<List<Course>> getAssignedCourses();
+
+//    @Query("SELECT termID FROM TERMS WHERE (SELECT * FROM COURSES WHERE TERMS.termID = COURSES.termID)")
+//    LiveData<List<Course>> getAssignedCourses();
 }

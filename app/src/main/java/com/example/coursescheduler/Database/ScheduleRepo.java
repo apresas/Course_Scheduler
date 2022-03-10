@@ -21,6 +21,7 @@ public class ScheduleRepo {
     private LiveData<List<Course>> allCourses;
     private AssessmentDAO assessmentDAO;
     private LiveData<List<Assessment>> allAssessments;
+    private LiveData<List<Course>> assignedCourses;
 
     public ScheduleRepo(Application application) {
         ScheduleDB database = ScheduleDB.getInstance(application);
@@ -28,6 +29,7 @@ public class ScheduleRepo {
         allTerms = termDAO.getAllTerms();
         courseDAO = database.courseDAO();
         allCourses = courseDAO.getAllCourses();
+        assignedCourses = courseDAO.getAssignedCourses();
         assessmentDAO = database.assessmentDAO();
         allAssessments = assessmentDAO.getAllAssessments();
     }
@@ -125,6 +127,10 @@ public class ScheduleRepo {
 
     public LiveData<List<Course>> getAllCourses() {
         return allCourses;
+    }
+
+    public LiveData<List<Course>> getAssignedCourses() {
+        return assignedCourses;
     }
 
     // COURSE ASYNC
