@@ -1,7 +1,10 @@
 package com.example.coursescheduler.UI;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -299,11 +302,35 @@ public class AddEditCourseActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.save_course:
                 saveCourse();
+                this.finish();
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
-
+            case R.id.share:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Text for note field.");
+                sendIntent.putExtra(Intent.EXTRA_TITLE, "Note Title");
+                sendIntent.setType("text/plain");
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
+                return true;
+            case R.id.notify:
+                String dateFromScreen = startDate.getText().toString();
+                Date date = null;
+                try {
+                    date = sdf.parse(dateFromScreen);
+                } catch (ParseException e){
+                    e.printStackTrace();
+                }
+                Long trigger = date.getTime();
+                Intent intent = new Intent(AddEditCourseActivity.this, MyReceiver.class);
+                String title = intent.getStringExtra(AddEditCourseActivity.EXTRA_TITLE);
+                intent.putExtra("key", title + " ends today.");
+                PendingIntent sender = PendingIntent.getBroadcast(AddEditCourseActivity.this, MainActivity.numAlert++, intent, 0);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+                return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private ActivityResultLauncher<Intent> activityUpdateResultLauncher = registerForActivityResult(
