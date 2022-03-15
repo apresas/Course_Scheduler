@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.coursescheduler.Entity.Assessment;
+import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Term;
 
 import java.util.List;
@@ -29,6 +30,9 @@ public interface AssessmentDAO {
 
     @Query("SELECT * FROM assessments ORDER BY assessmentID DESC")
     LiveData<List<Assessment>> getAllAssessments();
+
+    @Query("SELECT * FROM ASSESSMENTS WHERE courseID = :courseID ORDER BY assessmentID ASC")
+    LiveData<List<Assessment>> getAssignedAssessments(int courseID);
 
 //    @Query("SELECT termID FROM terms WHERE termID ==")
 //    void getTermID();

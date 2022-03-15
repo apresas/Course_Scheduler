@@ -16,6 +16,7 @@ public class AssessmentViewModel extends AndroidViewModel {
 
     private ScheduleRepo repository;
     private LiveData<List<Assessment>> allAssessments;
+    private LiveData<List<Assessment>> assignedAssessments;
 
     public AssessmentViewModel(@NonNull Application application) {
         super(application);
@@ -41,5 +42,10 @@ public class AssessmentViewModel extends AndroidViewModel {
 
     public LiveData<List<Assessment>> getAllAssessments() {
         return allAssessments;
+    }
+
+    public LiveData<List<Assessment>> getAllAssignedAssessments(int courseID) {
+        assignedAssessments = repository.getAssignedAssessments(courseID);
+        return assignedAssessments;
     }
 }

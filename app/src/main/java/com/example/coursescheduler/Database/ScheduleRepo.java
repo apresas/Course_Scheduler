@@ -25,6 +25,7 @@ public class ScheduleRepo {
     private AssessmentDAO assessmentDAO;
     private LiveData<List<Assessment>> allAssessments;
     private LiveData<List<Course>> assignedCourses;
+    private LiveData<List<Assessment>> assignedAssessments;
 
 
 
@@ -212,6 +213,11 @@ public class ScheduleRepo {
 
     public LiveData<List<Assessment>> getAllAssessments() {
         return allAssessments;
+    }
+
+    public LiveData<List<Assessment>> getAssignedAssessments(int courseID) {
+        assignedAssessments = assessmentDAO.getAssignedAssessments(courseID);
+        return assignedAssessments;
     }
 
     // ASSESSMENT ASYNC

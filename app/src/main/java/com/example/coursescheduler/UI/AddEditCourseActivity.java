@@ -1,5 +1,6 @@
 package com.example.coursescheduler.UI;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -89,10 +94,10 @@ public class AddEditCourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
 
-//                Intent intent = new Intent(AddEditCourseActivity.this, AddEditAssessmentActivity.class);
-//                String courseID = editCourseID.getText().toString();
-//                intent.putExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID, courseID);
-//                activityResultLauncher.launch(intent);
+                Intent intent = new Intent(AddEditCourseActivity.this, AddEditAssessmentActivity.class);
+                String courseID = editCourseID.getText().toString();
+                intent.putExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID, courseID);
+                activityResultLauncher.launch(intent);
 
             }
         });
@@ -109,7 +114,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
         // View Model
         assessmentViewModel = new ViewModelProvider(this).get(AssessmentViewModel.class);
 
-        assessmentViewModel.getAllAssessments().observe(this, new Observer<List<Assessment>>() {
+        assessmentViewModel.getAllAssignedAssessments(getIntent().getIntExtra(EXTRA_COURSE_ID, -1)).observe(this, new Observer<List<Assessment>>() {
             @Override
             public void onChanged(List<Assessment> assessments) {
                 adapter.setAssessments(assessments);
@@ -135,14 +140,15 @@ public class AddEditCourseActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new AssessmentAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Assessment assessment) {
-//                Intent intent = new Intent(AddEditCourseActivity.this, AddEditAssessmentActivity.class);
-//                intent.putExtra(AddEditAssessmentActivity.EXTRA_ASSESSMENT_ID, assessment.getAssessmentID());
-//                intent.putExtra(AddEditAssessmentActivity.EXTRA_TITLE, assessment.getAssessmentTitle());
-//                intent.putExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID, assessment.getCourseID());
-//                intent.putExtra(AddEditAssessmentActivity.EXTRA_TYPE, assessment.getAssessmentType());
-//                intent.putExtra(AddEditAssessmentActivity.EXTRA_START, assessment.getStartDate());
-//                intent.putExtra(AddEditAssessmentActivity.EXTRA_END, assessment.getEndDate());
-//                activityUpdateResultLauncher.launch(intent);
+                Intent intent = new Intent(AddEditCourseActivity.this, AddEditAssessmentActivity.class);
+                intent.putExtra(AddEditAssessmentActivity.EXTRA_ASSESSMENT_ID_DISPLAY, String.valueOf(assessment.getAssessmentID()));
+                intent.putExtra(AddEditAssessmentActivity.EXTRA_ASSESSMENT_ID, assessment.getAssessmentID());
+                intent.putExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID, String.valueOf(assessment.getCourseID()));
+                intent.putExtra(AddEditAssessmentActivity.EXTRA_TITLE, assessment.getAssessmentTitle());
+                intent.putExtra(AddEditAssessmentActivity.EXTRA_TYPE, assessment.getAssessmentType());
+                intent.putExtra(AddEditAssessmentActivity.EXTRA_START, assessment.getStartDate());
+                intent.putExtra(AddEditAssessmentActivity.EXTRA_END, assessment.getEndDate());
+                activityUpdateResultLauncher.launch(intent);
 
             }
         });
@@ -255,6 +261,32 @@ public class AddEditCourseActivity extends AppCompatActivity {
 
     }
 
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK){
+                        String title = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_TITLE);
+                        String type = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_TYPE);
+                        String start = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_START);
+                        String end = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_END);
+                        String ID = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID);
+                        int courseID = Integer.parseInt(ID);
+
+                        Assessment assessment = new Assessment(title, type, start, end, courseID);
+
+                        assessmentViewModel.insert(assessment);
+
+                        Toast.makeText(AddEditCourseActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+
+                    }else {
+                        Toast.makeText(AddEditCourseActivity.this, "Unsuccessful", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    );
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -273,4 +305,31 @@ public class AddEditCourseActivity extends AppCompatActivity {
 
         }
     }
+
+    private ActivityResultLauncher<Intent> activityUpdateResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK){
+                        String title = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_TITLE);
+                        String type = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_TYPE);
+                        String start = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_START);
+                        String end = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_END);
+                        String ID = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID);
+                        int termID = Integer.parseInt(ID);
+                        int assessmentID = result.getData().getIntExtra(AddEditAssessmentActivity.EXTRA_ASSESSMENT_ID, -1);
+
+                        Assessment assessment = new Assessment(title, type, start, end, termID);
+                        assessment.setAssessmentID(assessmentID);
+                        assessmentViewModel.update(assessment);
+
+                        Toast.makeText(AddEditCourseActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+
+                    }else {
+                        Toast.makeText(AddEditCourseActivity.this, "NOT Updated", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    );
 }
