@@ -75,6 +75,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_course);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        editTermID = findViewById(R.id.edit_text_termID);
+        editTermID = findViewById(R.id.edit_ID);
         editCourseID = findViewById(R.id.edit_courseID);
         courseTitle = findViewById(R.id.edit_text_courseTitle);
         instructorName = findViewById(R.id.edit_text_instructorName);
@@ -203,7 +204,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
         // Select Label
         if(intent.hasExtra(EXTRA_COURSE_ID)) {
             setTitle("Edit Course");
-//            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
+            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
             editCourseID.setText(intent.getStringExtra(EXTRA_COURSE_ID_DISPLAY));
             courseTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             instructorName.setText(intent.getStringExtra(EXTRA_INSTRUCTOR));
@@ -211,7 +212,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
             endDate.setText(intent.getStringExtra(EXTRA_END));
         } else {
             setTitle("Add Course");
-//            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
+            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
 
         }
 

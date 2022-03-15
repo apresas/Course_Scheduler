@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".UI.AddEditTermActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,37 +19,72 @@
         app:layout_constraintLeft_toLeftOf="parent"
         >
 
-    <LinearLayout
-        android:id="@+id/courseLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="10dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        <LinearLayout
+            android:id="@+id/courseLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="10dp"
     >
-        <TextView
-
-            android:id="@+id/courseIDTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Course ID:"
-            android:inputType="number"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            <TextView
+                android:id="@+id/courseIDTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Course ID:"
+                android:inputType="number"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
             />
 
-        <TextView
-            android:id="@+id/edit_courseID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="ID"
-            android:layout_marginLeft="5dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            <TextView
+                android:id="@+id/edit_courseID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="ID"
+                android:layout_marginLeft="5dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
 
             />
+
     </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/IDLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="10dp"
+            >
+            <TextView
+                android:id="@+id/IDTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Term ID:"
+                android:inputType="number"
+
+                />
+
+            <TextView
+                android:id="@+id/edit_ID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="ID"
+                android:layout_marginLeft="5dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+
+
+                />
+
+        </LinearLayout>
+    </RelativeLayout>
+
 
         <LinearLayout
             android:id="@+id/courseTitleLayout"
