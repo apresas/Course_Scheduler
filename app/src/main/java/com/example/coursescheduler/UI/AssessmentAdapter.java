@@ -31,9 +31,11 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
     public void onBindViewHolder(@NonNull AssessmentHolder holder, int position) {
         Assessment currentAssessment = assessments.get(position);
         int ID = currentAssessment.getAssessmentID();
+        int courseID = currentAssessment.getCourseID();
 
         holder.assessmentIDTextView.setText(Integer.toString(ID));
         holder.textViewTitle.setText(currentAssessment.getAssessmentTitle());
+        holder.textViewCourseID.setText(Integer.toString(courseID));
         holder.textViewType.setText(currentAssessment.getAssessmentType());
         holder.textViewStart.setText(currentAssessment.getStartDate());
         holder.textViewEnd.setText(currentAssessment.getEndDate());
@@ -58,6 +60,7 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
 
         private TextView assessmentIDTextView;
         private TextView textViewTitle;
+        private TextView textViewCourseID;
         private TextView textViewType;
         private TextView textViewStart;
         private TextView textViewEnd;
@@ -66,6 +69,7 @@ public class AssessmentAdapter extends RecyclerView.Adapter<AssessmentAdapter.As
             super(itemView);
             assessmentIDTextView = itemView.findViewById(R.id.text_view_assessmentID);
             textViewTitle = itemView.findViewById(R.id.text_view_title);
+            textViewCourseID = itemView.findViewById(R.id.edit_courseID);
             textViewType = itemView.findViewById(R.id.text_view_type);
             textViewStart = itemView.findViewById(R.id.text_view_assessment_start);
             textViewEnd = itemView.findViewById(R.id.text_view_assessment_end);

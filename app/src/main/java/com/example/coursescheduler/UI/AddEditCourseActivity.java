@@ -36,9 +36,6 @@ import java.util.Locale;
 
 public class AddEditCourseActivity extends AppCompatActivity {
 
-
-
-
     public static final String EXTRA_COURSE_ID_DISPLAY =
             "com.example.coursescheduler.EXTRA_COURSE_ID_DISPLAY";
     public static final String EXTRA_COURSE_ID =
@@ -74,7 +71,6 @@ public class AddEditCourseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_course);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        editTermID = findViewById(R.id.edit_text_termID);
         editTermID = findViewById(R.id.edit_ID);
         editCourseID = findViewById(R.id.edit_courseID);
         courseTitle = findViewById(R.id.edit_text_courseTitle);
@@ -93,8 +89,11 @@ public class AddEditCourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
 
-//                Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
+//                Intent intent = new Intent(AddEditCourseActivity.this, AddEditAssessmentActivity.class);
+//                String courseID = editCourseID.getText().toString();
+//                intent.putExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID, courseID);
 //                activityResultLauncher.launch(intent);
+
             }
         });
 
@@ -137,10 +136,12 @@ public class AddEditCourseActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Assessment assessment) {
 //                Intent intent = new Intent(AddEditCourseActivity.this, AddEditAssessmentActivity.class);
-//                intent.putExtra(AddEditCourseActivity.EXTRA_ID, course.getCourseID());
-//                intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
-//                intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
-//                intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
+//                intent.putExtra(AddEditAssessmentActivity.EXTRA_ASSESSMENT_ID, assessment.getAssessmentID());
+//                intent.putExtra(AddEditAssessmentActivity.EXTRA_TITLE, assessment.getAssessmentTitle());
+//                intent.putExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID, assessment.getCourseID());
+//                intent.putExtra(AddEditAssessmentActivity.EXTRA_TYPE, assessment.getAssessmentType());
+//                intent.putExtra(AddEditAssessmentActivity.EXTRA_START, assessment.getStartDate());
+//                intent.putExtra(AddEditAssessmentActivity.EXTRA_END, assessment.getEndDate());
 //                activityUpdateResultLauncher.launch(intent);
 
             }
