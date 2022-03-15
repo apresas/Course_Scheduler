@@ -29,7 +29,6 @@ public class CourseViewModel extends AndroidViewModel {
         super(application);
         repository = new ScheduleRepo(application);
         allCourses = repository.getAllCourses();
-        assignedCourses = repository.getAssignedCourses();
     }
 
     public void insert(Course course) {
@@ -52,7 +51,8 @@ public class CourseViewModel extends AndroidViewModel {
         return allCourses;
     }
 
-    public LiveData<List<Course>> getAssignedCourses() {
+    public LiveData<List<Course>> getAssignedCourses(int termID) {
+        assignedCourses = repository.getAssignedCourses(termID);
         return assignedCourses;
     }
 

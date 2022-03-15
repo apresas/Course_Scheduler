@@ -94,7 +94,6 @@ public class AddEditTermActivity extends AppCompatActivity {
         buttonAddTerm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-
                 Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
                 String termID = editTermID.getText().toString();
                 intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, termID);
@@ -114,7 +113,7 @@ public class AddEditTermActivity extends AppCompatActivity {
         // View Model
         courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
 
-        courseViewModel.getAssignedCourses().observe(this, new Observer<List<Course>>() {
+        courseViewModel.getAssignedCourses(getIntent().getIntExtra(EXTRA_ID, -1)).observe(this, new Observer<List<Course>>() {
             @Override
             public void onChanged(List<Course> courses) {
                 adapter.setCourse(courses);

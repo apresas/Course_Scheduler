@@ -6,6 +6,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.example.coursescheduler.Entity.Course;
@@ -32,14 +33,7 @@ public interface CourseDAO {
     @Query("SELECT * FROM courses ORDER BY courseID DESC")
     LiveData<List<Course>> getAllCourses();
 
-//    @Query("SELECT COURSES.* FROM COURSES, TERMS WHERE COURSES.termID = TERMS.termID")
-//    LiveData<List<Course>> getAssignedCourses();
+    @Query("SELECT* FROM COURSES WHERE termID = :termID ORDER BY courseID ASC")
+    LiveData<List<Course>> getAssignedCourses(int termID);
 
-//    @Query("SELECT c.* FROM COURSES c JOIN TERMS t ON c.termID = t.termID")
-//    LiveData<List<Course>> getAssignedCourses();
-
-//    @Query("SELECT t.termID FROM TERMS t JOIN COURSES c ON c.termID = t.termID")
-//    LiveData<List<Course>> getAssignedCourses();
-    @Query("SELECT t.termID, c.* FROM TERMS t INNER JOIN COURSES c ON t.termID = c.termID" )
-    LiveData<List<Course>> getAssignedCourses();
 }

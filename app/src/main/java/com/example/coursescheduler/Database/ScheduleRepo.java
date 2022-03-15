@@ -1,8 +1,10 @@
 package com.example.coursescheduler.Database;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.AsyncTask;
 
+import androidx.core.app.ComponentActivity;
 import androidx.lifecycle.LiveData;
 
 import com.example.coursescheduler.DAO.AssessmentDAO;
@@ -11,6 +13,7 @@ import com.example.coursescheduler.DAO.TermDAO;
 import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Term;
+import com.example.coursescheduler.UI.AddEditTermActivity;
 
 import java.util.List;
 
@@ -23,13 +26,14 @@ public class ScheduleRepo {
     private LiveData<List<Assessment>> allAssessments;
     private LiveData<List<Course>> assignedCourses;
 
+
+
     public ScheduleRepo(Application application) {
         ScheduleDB database = ScheduleDB.getInstance(application);
         termDAO = database.termDAO();
         allTerms = termDAO.getAllTerms();
         courseDAO = database.courseDAO();
         allCourses = courseDAO.getAllCourses();
-        assignedCourses = courseDAO.getAssignedCourses();
         assessmentDAO = database.assessmentDAO();
         allAssessments = assessmentDAO.getAllAssessments();
     }
@@ -129,7 +133,8 @@ public class ScheduleRepo {
         return allCourses;
     }
 
-    public LiveData<List<Course>> getAssignedCourses() {
+    public LiveData<List<Course>> getAssignedCourses(int termID) {
+        assignedCourses = courseDAO.getAssignedCourses(termID);
         return assignedCourses;
     }
 
