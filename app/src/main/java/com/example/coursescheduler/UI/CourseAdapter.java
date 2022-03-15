@@ -32,8 +32,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
     public void onBindViewHolder(@NonNull CourseHolder holder, int position) {
         Course currentCourse = courses.get(position);
         int ID = currentCourse.getCourseID();
+        int termID = currentCourse.getTermID();
         holder.courseIDTextView.setText(Integer.toString(ID));
         holder.textViewTitle.setText(currentCourse.getCourseTitle());
+        holder.textViewTermID.setText(Integer.toString(termID));
         holder.textViewInstructor.setText(currentCourse.getInstructorName());
         holder.textViewStart.setText(currentCourse.getStartDate());
         holder.textViewEnd.setText(currentCourse.getEndDate());
@@ -59,6 +61,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
 
         private TextView courseIDTextView;
         private TextView textViewTitle;
+        private TextView textViewTermID;
         private TextView textViewInstructor;
         private TextView textViewStart;
         private TextView textViewEnd;
@@ -67,6 +70,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
             super(itemView);
             courseIDTextView = itemView.findViewById(R.id.text_view_courseID);
             textViewTitle = itemView.findViewById(R.id.text_view_course_title);
+            textViewTermID = itemView.findViewById(R.id.edit_termID);
             textViewInstructor = itemView.findViewById(R.id.edit_instructor);
             textViewStart = itemView.findViewById(R.id.edit_course_start);
             textViewEnd = itemView.findViewById(R.id.edit_course_end);

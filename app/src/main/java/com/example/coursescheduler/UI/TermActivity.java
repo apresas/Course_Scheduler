@@ -89,6 +89,9 @@ public class TermActivity extends AppCompatActivity {
 
                 activityUpdateResultLauncher.launch(intent);
 
+//                if (intent.getStringExtra(AddEditTermActivity.EXTRA_ID).equals(intent.getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID))) {
+//
+//                }
 
 
             }

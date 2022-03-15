@@ -19,7 +19,7 @@
         >
 
     <LinearLayout
-        android:id="@+id/termLayout"
+        android:id="@+id/courseLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -31,19 +31,19 @@
     >
         <TextView
 
-            android:id="@+id/termIDTextView"
+            android:id="@+id/courseIDTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Term ID:"
+            android:text="Course ID:"
             android:inputType="number"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             />
 
         <TextView
-            android:id="@+id/edit_text_termID"
+            android:id="@+id/edit_courseID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Term ID"
+            android:hint="ID"
             android:layout_marginLeft="5dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
 

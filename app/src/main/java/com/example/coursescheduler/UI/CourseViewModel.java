@@ -5,11 +5,18 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.room.Query;
 
 import com.example.coursescheduler.Database.ScheduleRepo;
 import com.example.coursescheduler.Entity.Course;
+import com.example.coursescheduler.Entity.Term;
 
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class CourseViewModel extends AndroidViewModel {
@@ -48,4 +55,6 @@ public class CourseViewModel extends AndroidViewModel {
     public LiveData<List<Course>> getAssignedCourses() {
         return assignedCourses;
     }
+
+
 }

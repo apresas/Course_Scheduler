@@ -1,5 +1,6 @@
 package com.example.coursescheduler.DAO;
 
+import androidx.core.app.ComponentActivity;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -9,6 +10,7 @@ import androidx.room.Update;
 
 import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Term;
+import com.example.coursescheduler.UI.AddEditTermActivity;
 
 import java.util.List;
 
@@ -30,12 +32,14 @@ public interface CourseDAO {
     @Query("SELECT * FROM courses ORDER BY courseID DESC")
     LiveData<List<Course>> getAllCourses();
 
-//    @Query("SELECT * FROM COURSES, TERMS WHERE COURSES.termID = TERMS.termID")
+//    @Query("SELECT COURSES.* FROM COURSES, TERMS WHERE COURSES.termID = TERMS.termID")
 //    LiveData<List<Course>> getAssignedCourses();
 
-    @Query("SELECT * FROM COURSES WHERE (SELECT termID FROM TERMS WHERE COURSES.termID = TERMS.termID)")
+//    @Query("SELECT c.* FROM COURSES c JOIN TERMS t ON c.termID = t.termID")
+//    LiveData<List<Course>> getAssignedCourses();
+
+//    @Query("SELECT t.termID FROM TERMS t JOIN COURSES c ON c.termID = t.termID")
+//    LiveData<List<Course>> getAssignedCourses();
+    @Query("SELECT t.termID, c.* FROM TERMS t INNER JOIN COURSES c ON t.termID = c.termID" )
     LiveData<List<Course>> getAssignedCourses();
-
-//    @Query("SELECT termID FROM TERMS WHERE (SELECT * FROM COURSES WHERE TERMS.termID = COURSES.termID)")
-//    LiveData<List<Course>> getAssignedCourses();
 }

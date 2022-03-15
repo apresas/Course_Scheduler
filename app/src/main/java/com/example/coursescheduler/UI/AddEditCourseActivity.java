@@ -37,6 +37,10 @@ import java.util.Locale;
 public class AddEditCourseActivity extends AppCompatActivity {
 
 
+
+
+    public static final String EXTRA_COURSE_ID_DISPLAY =
+            "com.example.coursescheduler.EXTRA_COURSE_ID_DISPLAY";
     public static final String EXTRA_COURSE_ID =
             "com.example.coursescheduler.EXTRA_ID";
     public static final String EXTRA_TERM_ID =
@@ -51,6 +55,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
             "com.example.coursescheduler.EXTRA_END";
 
     private TextView editTermID;
+    private TextView editCourseID;
     private EditText courseTitle;
     private EditText instructorName;
     private TextView startDate;
@@ -69,7 +74,8 @@ public class AddEditCourseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_course);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        editTermID = findViewById(R.id.edit_text_termID);
+//        editTermID = findViewById(R.id.edit_text_termID);
+        editCourseID = findViewById(R.id.edit_courseID);
         courseTitle = findViewById(R.id.edit_text_courseTitle);
         instructorName = findViewById(R.id.edit_text_instructorName);
         startDate = findViewById(R.id.editStart);
@@ -197,14 +203,15 @@ public class AddEditCourseActivity extends AppCompatActivity {
         // Select Label
         if(intent.hasExtra(EXTRA_COURSE_ID)) {
             setTitle("Edit Course");
-            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
+//            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
+            editCourseID.setText(intent.getStringExtra(EXTRA_COURSE_ID_DISPLAY));
             courseTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             instructorName.setText(intent.getStringExtra(EXTRA_INSTRUCTOR));
             startDate.setText(intent.getStringExtra(EXTRA_START));
             endDate.setText(intent.getStringExtra(EXTRA_END));
         } else {
             setTitle("Add Course");
-            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
+//            editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
 
         }
 

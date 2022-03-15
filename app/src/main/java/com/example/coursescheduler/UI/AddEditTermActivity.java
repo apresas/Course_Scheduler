@@ -66,7 +66,8 @@ public class AddEditTermActivity extends AppCompatActivity {
     String dateFormat = "MM/dd/yy";
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
     private CourseViewModel courseViewModel;
-    Term term;
+
+
 
 
 
@@ -113,7 +114,7 @@ public class AddEditTermActivity extends AppCompatActivity {
         // View Model
         courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
 
-        courseViewModel.getAllCourses().observe(this, new Observer<List<Course>>() {
+        courseViewModel.getAssignedCourses().observe(this, new Observer<List<Course>>() {
             @Override
             public void onChanged(List<Course> courses) {
                 adapter.setCourse(courses);
@@ -140,7 +141,7 @@ public class AddEditTermActivity extends AppCompatActivity {
             @Override
             public void onItemClick(Course course) {
                 Intent intent = new Intent(AddEditTermActivity.this, AddEditCourseActivity.class);
-//                intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, String.valueOf(course.getCourseID()));
+                intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID_DISPLAY, String.valueOf(course.getCourseID()));
                 intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, course.getCourseID());
                 intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, String.valueOf(course.getTermID()));
                 intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
@@ -214,6 +215,11 @@ public class AddEditTermActivity extends AppCompatActivity {
             termTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             startDate.setText(intent.getStringExtra(EXTRA_START));
             endDate.setText(intent.getStringExtra(EXTRA_END));
+
+            if (AddEditCourseActivity.EXTRA_TERM_ID == editTermID.getText()) {
+
+            }
+
         } else {
             setTitle("Add Term");
         }
