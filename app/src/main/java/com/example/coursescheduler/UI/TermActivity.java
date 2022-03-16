@@ -15,26 +15,35 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.coursescheduler.DAO.CourseDAO;
+import com.example.coursescheduler.Database.ScheduleRepo;
+import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class TermActivity extends AppCompatActivity {
 
     private TermViewModel termViewModel;
+    private CourseViewModel courseViewModel;
+    private List<Course> coursesList = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_list);
+
 
         FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_term);
         buttonAddTerm.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +51,6 @@ public class TermActivity extends AppCompatActivity {
             public void onClick(View v){
 
                 Intent intent = new Intent(TermActivity.this, AddEditTermActivity.class);
-//                int ID = term.getTermID();
                 activityResultLauncher.launch(intent);
             }
         });
@@ -53,6 +61,7 @@ public class TermActivity extends AppCompatActivity {
 
         final TermAdapter adapter = new TermAdapter();
         recyclerView.setAdapter(adapter);
+
 
         termViewModel = new ViewModelProvider(this).get(TermViewModel.class);
 
@@ -72,8 +81,8 @@ public class TermActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                termViewModel.delete(adapter.getTermAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(TermActivity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
+                    termViewModel.delete(adapter.getTermAt(viewHolder.getAdapterPosition()));
+                    Toast.makeText(TermActivity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerView);
 
@@ -88,15 +97,11 @@ public class TermActivity extends AppCompatActivity {
                 intent.putExtra(AddEditTermActivity.EXTRA_END, term.getEndDate());
 
                 activityUpdateResultLauncher.launch(intent);
-
-//                if (intent.getStringExtra(AddEditTermActivity.EXTRA_ID).equals(intent.getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID))) {
-//
-//                }
-
-
             }
         });
     }
+
+
 
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -165,4 +170,5 @@ public class TermActivity extends AppCompatActivity {
                 }
             }
     );
+
 }

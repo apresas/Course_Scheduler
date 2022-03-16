@@ -49,6 +49,8 @@ public class Course {
 
     public int getTermID() {return termID;}
 
+    public int getAssignedTermID(int termID) {return termID;}
+
     // Setters
 
     public void setCourseID(int courseID) {

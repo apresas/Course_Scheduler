@@ -1,6 +1,9 @@
 package com.example.coursescheduler.UI;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -190,19 +193,47 @@ public class AddEditAssessmentActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.add_courses_menu, menu);
+        menuInflater.inflate(R.menu.add_assessments_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.save_course:
+            case R.id.save_assessment:
                 saveAssessment();
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
-
+            case R.id.share:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Text for note field.");
+                sendIntent.putExtra(Intent.EXTRA_TITLE, "Note Title");
+                sendIntent.setType("text/plain");
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
+                return true;
+            case R.id.notify:
+                String dateFromScreen = startDate.getText().toString();
+                String endFromScreen = endDate.getText().toString();
+                Date date = null;
+                Date eDate = null;
+                try {
+                    date = sdf.parse(dateFromScreen);
+                    eDate = sdf.parse(endFromScreen);
+                } catch (ParseException e){
+                    e.printStackTrace();
+                }
+                Long trigger = date.getTime();
+                Intent intent = new Intent(AddEditAssessmentActivity.this, MyReceiver.class);
+                String title = assessmentTitle.getText().toString();
+                intent.putExtra("key", "Assessment: " + title + " Starts today: " + dateFromScreen + " and ends: " + endFromScreen);
+                PendingIntent sender = PendingIntent.getBroadcast(AddEditAssessmentActivity.this, MainActivity.numAlert++, intent, 0);
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, trigger, sender);
+                return true;
         }
+        return super.onOptionsItemSelected(item);
     }
+
 }
+

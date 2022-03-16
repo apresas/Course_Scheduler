@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CourseScheduler">
+        <receiver
+            android:name=".UI.MyReceiver"
+            android:enabled="true"
+            android:exported="true" />
        <activity
            android:name=".UI.AddEditTermActivity"
            android:parentActivityName=".UI.TermActivity"

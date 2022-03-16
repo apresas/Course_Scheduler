@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.coursescheduler.Database.ScheduleRepo;
+import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Term;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class TermViewModel extends AndroidViewModel {
 
     private ScheduleRepo repository;
     private LiveData<List<Term>> allTerms;
+    private LiveData<List<Course>> assignedCourses;
 
     public TermViewModel(@NonNull Application application) {
         super(application);
@@ -40,5 +42,10 @@ public class TermViewModel extends AndroidViewModel {
 
     public LiveData<List<Term>> getAllTerms() {
         return allTerms;
+    }
+
+    public LiveData<List<Course>> getAssignedCourses(int termID) {
+        assignedCourses = repository.getAssignedCourses(termID);
+        return assignedCourses;
     }
 }
