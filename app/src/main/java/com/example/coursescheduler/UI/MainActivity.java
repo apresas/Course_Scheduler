@@ -37,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
 //        repo.insertTerm(term1);
 //        repo.insertTerm(term2);
 //
-//        Course course = new Course("Software 1", "John Doe", "03/01/22", "04/03/22", 1);
-//        Course course1 = new Course("Software 2", "Jane Doe", "05/01/22", "06/01/22", 2);
-//        Course course2 = new Course("Mobile App", "Jim Doe", "06/01/22", "07/01/22", 3);
-//        Course course3 = new Course("Tester", "Jim Doe", "06/01/22", "07/01/22", 1);
+//        Course course = new Course("Software 1", "John Doe", "In Progress","03/01/22", "04/03/22", 1);
+//        Course course1 = new Course("Software 2", "Jane Doe", "In Progress","05/01/22", "06/01/22", 2);
+//        Course course2 = new Course("Mobile App", "Jim Doe", "In Progress","06/01/22", "07/01/22", 3);
+//        Course course3 = new Course("Tester", "Jim Doe", "In Progress","06/01/22", "07/01/22", 1);
 //        repo.insertCourse(course);
 //        repo.insertCourse(course1);
 //        repo.insertCourse(course2);

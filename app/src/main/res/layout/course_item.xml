@@ -37,26 +37,51 @@
             android:layout_marginTop="5dp"
             android:layout_below="@+id/text_view_course_title"
             >
+            <LinearLayout
+                android:id="@+id/termIDLayoutContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+                <TextView
+                    android:id="@+id/text_view_termID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="Term ID:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                <TextView
+                    android:id="@+id/edit_termID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/text_view_termID"
+                    android:text="#"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" >
+                </TextView>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/text_view_termID"
+            <LinearLayout
+                android:id="@+id/statusIDLayoutContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:text="Term ID:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-            />
-
-            <TextView
-                android:id="@+id/edit_termID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/text_view_termID"
-                android:text="#"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" >
-
-            </TextView>
+                android:orientation="horizontal"
+                android:layout_alignParentEnd="true">
+                <TextView
+                    android:id="@+id/text_view_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="Status:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                <TextView
+                    android:id="@+id/edit_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/text_view_termID"
+                    android:text="text"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" >
+                </TextView>
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout

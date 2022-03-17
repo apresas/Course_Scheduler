@@ -3,6 +3,7 @@ package com.example.coursescheduler.UI;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +38,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         holder.textViewTitle.setText(currentCourse.getCourseTitle());
         holder.textViewTermID.setText(Integer.toString(termID));
         holder.textViewInstructor.setText(currentCourse.getInstructorName());
+        holder.textViewStatus.setText(currentCourse.getStatus());
         holder.textViewStart.setText(currentCourse.getStartDate());
         holder.textViewEnd.setText(currentCourse.getEndDate());
 
@@ -63,6 +65,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         private TextView textViewTitle;
         private TextView textViewTermID;
         private TextView textViewInstructor;
+        private TextView textViewStatus;
         private TextView textViewStart;
         private TextView textViewEnd;
 
@@ -72,6 +75,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
             textViewTitle = itemView.findViewById(R.id.text_view_course_title);
             textViewTermID = itemView.findViewById(R.id.edit_termID);
             textViewInstructor = itemView.findViewById(R.id.edit_instructor);
+            textViewStatus = itemView.findViewById(R.id.edit_status);
             textViewStart = itemView.findViewById(R.id.edit_course_start);
             textViewEnd = itemView.findViewById(R.id.edit_course_end);
 

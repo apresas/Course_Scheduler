@@ -11,8 +11,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +45,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEditCourseActivity extends AppCompatActivity {
+public class AddEditCourseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String EXTRA_COURSE_ID_DISPLAY =
             "com.example.coursescheduler.EXTRA_COURSE_ID_DISPLAY";
@@ -54,6 +57,10 @@ public class AddEditCourseActivity extends AppCompatActivity {
             "com.example.coursescheduler.EXTRA_TITLE";
     public static final String EXTRA_INSTRUCTOR =
             "com.example.coursescheduler.EXTRA_INSTRUCTOR";
+    public static final String EXTRA_STATUS =
+            "com.example.coursescheduler.EXTRA_STATUS";
+    public static final String EXTRA_STATUS_POS =
+            "com.example.coursescheduler.EXTRA_STATUS_POS";
     public static final String EXTRA_START =
             "com.example.coursescheduler.EXTRA_START";
     public static final String EXTRA_END =
@@ -65,6 +72,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
     private EditText instructorName;
     private TextView startDate;
     private TextView endDate;
+    private Spinner statusSpinner;
     DatePickerDialog.OnDateSetListener startDP;
     DatePickerDialog.OnDateSetListener endDP;
     final Calendar calendarStart = Calendar.getInstance();
@@ -72,6 +80,8 @@ public class AddEditCourseActivity extends AppCompatActivity {
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
     private AssessmentViewModel assessmentViewModel;
     CourseDAO courseDAO;
+    static int statusPosition;
+    Course course;
 
 
     @Override
@@ -87,6 +97,12 @@ public class AddEditCourseActivity extends AppCompatActivity {
         endDate = findViewById(R.id.editEnd);
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
+
+        statusSpinner = findViewById(R.id.status_spinner);
+        ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.status, android.R.layout.simple_spinner_item);
+        sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        statusSpinner.setAdapter(sAdapter);
+        statusSpinner.setOnItemSelectedListener(this);
 
 
         // Floating Button
@@ -218,6 +234,10 @@ public class AddEditCourseActivity extends AppCompatActivity {
             editCourseID.setText(intent.getStringExtra(EXTRA_COURSE_ID_DISPLAY));
             courseTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             instructorName.setText(intent.getStringExtra(EXTRA_INSTRUCTOR));
+//            statusSpinner.setSelection(intent.getIntExtra(EXTRA_STATUS_POS, -1));
+//            statusPosition = Integer.parseInt(intent.getStringExtra(EXTRA_STATUS_POS));
+//            System.out.println("Status Position: " + statusPosition);
+            statusSpinner.setSelection(statusPosition);
             startDate.setText(intent.getStringExtra(EXTRA_START));
             endDate.setText(intent.getStringExtra(EXTRA_END));
         } else {
@@ -237,6 +257,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
     private void saveCourse() {
         String title = courseTitle.getText().toString();
         String instructor = instructorName.getText().toString();
+        String status = statusSpinner.getSelectedItem().toString();
         String start = startDate.getText().toString();
         String end = endDate.getText().toString();
         String termID = editTermID.getText().toString();
@@ -249,6 +270,7 @@ public class AddEditCourseActivity extends AppCompatActivity {
         Intent data = new Intent();
         data.putExtra(EXTRA_TERM_ID, termID);
         data.putExtra(EXTRA_INSTRUCTOR, instructor);
+        data.putExtra(EXTRA_STATUS, status);
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_START, start);
         data.putExtra(EXTRA_END, end);
@@ -361,4 +383,25 @@ public class AddEditCourseActivity extends AppCompatActivity {
                 }
             }
     );
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
+        String text = parent.getItemAtPosition(position).toString();
+        int pos = parent.getSelectedItemPosition();
+        String positionString = String.valueOf(pos);
+        System.out.println("Pos: " + pos);
+        System.out.println("Text: " + text);
+        statusPosition = pos;
+        getIntent().putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, positionString);
+        getIntent().putExtra(AddEditCourseActivity.EXTRA_STATUS, text);
+        System.out.println("onitem: " + getIntent().getStringExtra(AddEditCourseActivity.EXTRA_STATUS_POS));
+        System.out.println("onitemText: " + getIntent().getStringExtra(AddEditCourseActivity.EXTRA_STATUS));
+
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }

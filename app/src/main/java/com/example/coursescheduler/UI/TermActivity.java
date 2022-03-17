@@ -36,8 +36,6 @@ import java.util.List;
 public class TermActivity extends AppCompatActivity {
 
     private TermViewModel termViewModel;
-    private CourseViewModel courseViewModel;
-    private List<Course> coursesList = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +80,7 @@ public class TermActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                     termViewModel.delete(adapter.getTermAt(viewHolder.getAdapterPosition()));
+                    int termID = adapter.getTermAt(viewHolder.getAdapterPosition()).getTermID();
                     Toast.makeText(TermActivity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerView);

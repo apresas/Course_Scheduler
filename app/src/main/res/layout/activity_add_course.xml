@@ -144,7 +144,32 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/courseStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
 
+            >
+            <TextView
+                android:id="@+id/statusTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                />
+
+            <Spinner
+                android:id="@+id/status_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+
+        </LinearLayout>
 
 
     <TextView
@@ -162,7 +187,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="02/24/22"
+        android:text="MM/DD/YY"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         />
 
@@ -182,7 +207,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="02/25/22"
+        android:text="MM/DD/YY"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         />
 
