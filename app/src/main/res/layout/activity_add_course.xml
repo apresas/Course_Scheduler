@@ -107,7 +107,7 @@
                 />
             <EditText
                 android:id="@+id/edit_text_courseTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Title"
                 android:inputType="text"
@@ -136,7 +136,7 @@
                 />
             <EditText
                 android:id="@+id/edit_text_instructorName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Name"
                 android:inputType="text"
