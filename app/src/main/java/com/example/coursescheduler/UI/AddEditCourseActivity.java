@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -73,6 +74,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     private TextView startDate;
     private TextView endDate;
     private Spinner statusSpinner;
+    private Button noteButton;
     DatePickerDialog.OnDateSetListener startDP;
     DatePickerDialog.OnDateSetListener endDP;
     final Calendar calendarStart = Calendar.getInstance();
@@ -103,6 +105,14 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statusSpinner.setAdapter(sAdapter);
         statusSpinner.setOnItemSelectedListener(this);
+
+        noteButton = (Button) findViewById(R.id.addNoteBtn);
+        noteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
+            }
+        });
 
 
         // Floating Button
@@ -247,6 +257,11 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         }
 
 
+    }
+
+    public void openDialog() {
+        NoteDialog noteDialog = new NoteDialog();
+        noteDialog.show(getSupportFragmentManager(), "note dialog");
     }
 
     private void updateLabelStart() {startDate.setText(sdf.format(calendarStart.getTime()));}

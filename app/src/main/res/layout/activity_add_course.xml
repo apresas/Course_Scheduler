@@ -211,6 +211,14 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         />
 
+        <Button
+            android:id="@+id/addNoteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Note"
+            android:layout_marginTop="7dp"
+            />
+
         <TextView
             android:id="@+id/assessmentListTextView"
             android:layout_width="match_parent"
