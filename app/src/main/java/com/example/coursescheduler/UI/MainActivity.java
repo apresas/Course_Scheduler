@@ -9,6 +9,7 @@ import android.view.View;
 import com.example.coursescheduler.Database.ScheduleRepo;
 import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
+import com.example.coursescheduler.Entity.Note;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 
@@ -45,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
 //        repo.insertCourse(course1);
 //        repo.insertCourse(course2);
 //        repo.insertCourse(course3);
+//
+//        Note note = new Note("Test Title 1", "Test Message Body", 1);
+//        Note note1 = new Note("Test Title 2", "Test Message Body", 2);
+//        Note note2 = new Note("Test Title 3", "Test Message Body", 3);
+//        repo.insertNote(note);
+//        repo.insertNote(note1);
+//        repo.insertNote(note2);
 
 
     }

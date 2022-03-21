@@ -14,4 +14,10 @@
         <item>Objective</item>
         <item>Performance</item>
     </string-array>
+
+    <string-array name="instructor">
+        <item>John Doe | jdoe@email.com | 888-888-8888</item>
+        <item>Jane Doe | jdoe2@email.com | 888-888-8889</item>
+        <item>Tim Tom | ttom@email.com | 888-888-8887</item>
+    </string-array>
 </resources>

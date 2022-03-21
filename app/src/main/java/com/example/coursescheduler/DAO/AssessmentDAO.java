@@ -34,6 +34,4 @@ public interface AssessmentDAO {
     @Query("SELECT * FROM ASSESSMENTS WHERE courseID = :courseID ORDER BY assessmentID ASC")
     LiveData<List<Assessment>> getAssignedAssessments(int courseID);
 
-//    @Query("SELECT termID FROM terms WHERE termID ==")
-//    void getTermID();
 }

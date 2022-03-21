@@ -58,6 +58,8 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
             "com.example.coursescheduler.EXTRA_TITLE";
     public static final String EXTRA_INSTRUCTOR =
             "com.example.coursescheduler.EXTRA_INSTRUCTOR";
+    public static final String EXTRA_INSTRUCTOR_POS =
+            "com.example.coursescheduler.EXTRA_INSTRUCTOR_POS";
     public static final String EXTRA_STATUS =
             "com.example.coursescheduler.EXTRA_STATUS";
     public static final String EXTRA_STATUS_POS =
@@ -70,7 +72,8 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     private TextView editTermID;
     private TextView editCourseID;
     private EditText courseTitle;
-    private EditText instructorName;
+//    private EditText instructorName;
+    private Spinner instructorSpinner;
     private TextView startDate;
     private TextView endDate;
     private Spinner statusSpinner;
@@ -83,6 +86,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     private AssessmentViewModel assessmentViewModel;
     CourseDAO courseDAO;
     static int statusPosition;
+    static int instructorPosition;
     Course course;
 
 
@@ -94,11 +98,17 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         editTermID = findViewById(R.id.edit_ID);
         editCourseID = findViewById(R.id.edit_courseID);
         courseTitle = findViewById(R.id.edit_text_courseTitle);
-        instructorName = findViewById(R.id.edit_text_instructorName);
+//        instructorName = findViewById(R.id.edit_text_instructorName);
         startDate = findViewById(R.id.editStart);
         endDate = findViewById(R.id.editEnd);
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
+
+        instructorSpinner = findViewById(R.id.instructor_spinner);
+        ArrayAdapter<CharSequence> iAdapter = ArrayAdapter.createFromResource(this, R.array.instructor, android.R.layout.simple_spinner_item);
+        iAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        instructorSpinner.setAdapter(iAdapter);
+        instructorSpinner.setOnItemSelectedListener(this);
 
         statusSpinner = findViewById(R.id.status_spinner);
         ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.status, android.R.layout.simple_spinner_item);
@@ -244,7 +254,8 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
             editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
             editCourseID.setText(intent.getStringExtra(EXTRA_COURSE_ID_DISPLAY));
             courseTitle.setText(intent.getStringExtra(EXTRA_TITLE));
-            instructorName.setText(intent.getStringExtra(EXTRA_INSTRUCTOR));
+//            instructorName.setText(intent.getStringExtra(EXTRA_INSTRUCTOR));
+            instructorSpinner.setSelection(instructorPosition);
             statusSpinner.setSelection(statusPosition);
             startDate.setText(intent.getStringExtra(EXTRA_START));
             endDate.setText(intent.getStringExtra(EXTRA_END));
@@ -269,13 +280,14 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
     private void saveCourse() {
         String title = courseTitle.getText().toString();
-        String instructor = instructorName.getText().toString();
+//        String instructor = instructorName.getText().toString();
+        String instructor = instructorSpinner.getSelectedItem().toString();
         String status = statusSpinner.getSelectedItem().toString();
         String start = startDate.getText().toString();
         String end = endDate.getText().toString();
         String termID = editTermID.getText().toString();
 
-        if (title.trim().isEmpty() || instructor.trim().isEmpty()) {
+        if (title.trim().isEmpty()) {
             Toast.makeText(this, "Please enter a title and instructor name", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -407,6 +419,15 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
         getIntent().putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, positionString);
         getIntent().putExtra(AddEditCourseActivity.EXTRA_STATUS, text);
+
+        String instructor = parent.getItemAtPosition(position).toString();
+        int iPos = parent.getSelectedItemPosition();
+        String iPositionString = String.valueOf(iPos);
+
+        instructorPosition = iPos;
+
+        getIntent().putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR_POS, iPositionString);
+        getIntent().putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, instructor);
 
     }
 

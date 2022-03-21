@@ -9,9 +9,11 @@ import androidx.lifecycle.LiveData;
 
 import com.example.coursescheduler.DAO.AssessmentDAO;
 import com.example.coursescheduler.DAO.CourseDAO;
+import com.example.coursescheduler.DAO.NoteDAO;
 import com.example.coursescheduler.DAO.TermDAO;
 import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
+import com.example.coursescheduler.Entity.Note;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.UI.AddEditTermActivity;
 
@@ -26,6 +28,9 @@ public class ScheduleRepo {
     private LiveData<List<Assessment>> allAssessments;
     private LiveData<List<Course>> assignedCourses;
     private LiveData<List<Assessment>> assignedAssessments;
+    private NoteDAO noteDAO;
+    private LiveData<List<Note>> allNotes;
+    private LiveData<List<Note>> assignedNotes;
 
 
 
@@ -37,6 +42,10 @@ public class ScheduleRepo {
         allCourses = courseDAO.getAllCourses();
         assessmentDAO = database.assessmentDAO();
         allAssessments = assessmentDAO.getAllAssessments();
+        noteDAO = database.noteDAO();
+        allNotes = noteDAO.getAllNotes();
+
+
     }
 
     // TERM
@@ -276,4 +285,72 @@ public class ScheduleRepo {
             return null;
         }
     }
+
+
+    // NOTE
+    public void insertNote(Note note){
+        new InsertNoteAsyncTask(noteDAO).execute(note);
+    }
+
+    public void updateNote(Note note){
+        new UpdateNoteAsyncTask(noteDAO).execute(note);
+    }
+
+    public void deleteNote(Note note){
+        new DeleteNoteAsyncTask(noteDAO).execute(note);
+    }
+
+    public LiveData<List<Note>> getAllNotes() {
+        return allNotes;
+    }
+
+    public LiveData<List<Note>> getAssignedNotes(int courseID) {
+        assignedNotes = noteDAO.getAssignedNotes(courseID);
+        return assignedNotes;
+    }
+
+    // NOTE ASYNC
+    private static class InsertNoteAsyncTask extends AsyncTask<Note, Void, Void> {
+        private NoteDAO noteDAO;
+
+        private InsertNoteAsyncTask(NoteDAO noteDAO) {
+            this.noteDAO = noteDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Note... notes) {
+            noteDAO.insert(notes[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateNoteAsyncTask extends AsyncTask<Note, Void, Void> {
+        private NoteDAO noteDAO;
+
+        private UpdateNoteAsyncTask(NoteDAO noteDAO) {
+            this.noteDAO = noteDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Note... notes) {
+            noteDAO.update(notes[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteNoteAsyncTask extends AsyncTask<Note, Void, Void> {
+        private NoteDAO noteDAO;
+
+        private DeleteNoteAsyncTask(NoteDAO noteDAO) {
+            this.noteDAO = noteDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Note... notes) {
+            noteDAO.delete(notes[0]);
+            return null;
+        }
+    }
+
+
 }
