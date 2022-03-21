@@ -10,8 +10,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +38,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEditAssessmentActivity extends AppCompatActivity {
+public class AddEditAssessmentActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String EXTRA_ASSESSMENT_ID_DISPLAY =
             "com.example.coursescheduler.EXTRA_ASSESSMENT_ID_DISPLAY";
@@ -47,6 +50,8 @@ public class AddEditAssessmentActivity extends AppCompatActivity {
             "com.example.coursescheduler.EXTRA_TITLE";
     public static final String EXTRA_TYPE =
             "com.example.coursescheduler.EXTRA_TYPE";
+    public static final String EXTRA_TYPE_POSITION =
+            "com.example.coursescheduler.EXTRA_TYPE_POSITION";
     public static final String EXTRA_START =
             "com.example.coursescheduler.EXTRA_START";
     public static final String EXTRA_END =
@@ -58,11 +63,13 @@ public class AddEditAssessmentActivity extends AppCompatActivity {
     private EditText typeTitle;
     private TextView startDate;
     private TextView endDate;
+    private Spinner typeSpinner;
     DatePickerDialog.OnDateSetListener startDP;
     DatePickerDialog.OnDateSetListener endDP;
     final Calendar calendarStart = Calendar.getInstance();
     String dateFormat = "MM/dd/yy";
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
+    static int typePosition;
     private AssessmentViewModel assessmentViewModel;
     CourseDAO courseDAO;
 
@@ -75,11 +82,17 @@ public class AddEditAssessmentActivity extends AppCompatActivity {
         editCourseID = findViewById(R.id.edit_ID);
         editAssessmentID = findViewById(R.id.edit_assessmentID);
         assessmentTitle = findViewById(R.id.edit_text_assessmentTitle);
-        typeTitle = findViewById(R.id.edit_text_type);
+//        typeTitle = findViewById(R.id.edit_text_type);
         startDate = findViewById(R.id.editStart);
         endDate = findViewById(R.id.editEnd);
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
+
+        typeSpinner = findViewById(R.id.type_spinner);
+        ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item);
+        sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeSpinner.setAdapter(sAdapter);
+        typeSpinner.setOnItemSelectedListener(this);
 
 
         // Start Date onClick
@@ -143,7 +156,8 @@ public class AddEditAssessmentActivity extends AppCompatActivity {
             editCourseID.setText(intent.getStringExtra(EXTRA_COURSE_ID));
             editAssessmentID.setText(intent.getStringExtra(EXTRA_ASSESSMENT_ID_DISPLAY));
             assessmentTitle.setText(intent.getStringExtra(EXTRA_TITLE));
-            typeTitle.setText(intent.getStringExtra(EXTRA_TYPE));
+            typeSpinner.setSelection(typePosition);
+//            typeTitle.setText(intent.getStringExtra(EXTRA_TYPE));
             startDate.setText(intent.getStringExtra(EXTRA_START));
             endDate.setText(intent.getStringExtra(EXTRA_END));
         } else {
@@ -162,7 +176,8 @@ public class AddEditAssessmentActivity extends AppCompatActivity {
 
     private void saveAssessment() {
         String title = assessmentTitle.getText().toString();
-        String type = typeTitle.getText().toString();
+//        String type = typeTitle.getText().toString();
+        String type = typeSpinner.getSelectedItem().toString();
         String start = startDate.getText().toString();
         String end = endDate.getText().toString();
         String courseID = editCourseID.getText().toString();
@@ -235,5 +250,21 @@ public class AddEditAssessmentActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
+        String text = parent.getItemAtPosition(position).toString();
+        int pos = parent.getSelectedItemPosition();
+        String positionString = String.valueOf(pos);
+
+        typePosition = pos;
+
+        getIntent().putExtra(AddEditAssessmentActivity.EXTRA_TYPE, text);
+        getIntent().putExtra(AddEditAssessmentActivity.EXTRA_TYPE_POSITION, positionString);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }
 

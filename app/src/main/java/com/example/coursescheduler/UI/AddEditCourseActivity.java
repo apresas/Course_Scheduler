@@ -175,6 +175,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID, String.valueOf(assessment.getCourseID()));
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_TITLE, assessment.getAssessmentTitle());
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_TYPE, assessment.getAssessmentType());
+                intent.putExtra(AddEditAssessmentActivity.EXTRA_TYPE_POSITION, AddEditAssessmentActivity.typePosition);
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_START, assessment.getStartDate());
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_END, assessment.getEndDate());
                 activityUpdateResultLauncher.launch(intent);
@@ -244,9 +245,6 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
             editCourseID.setText(intent.getStringExtra(EXTRA_COURSE_ID_DISPLAY));
             courseTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             instructorName.setText(intent.getStringExtra(EXTRA_INSTRUCTOR));
-//            statusSpinner.setSelection(intent.getIntExtra(EXTRA_STATUS_POS, -1));
-//            statusPosition = Integer.parseInt(intent.getStringExtra(EXTRA_STATUS_POS));
-//            System.out.println("Status Position: " + statusPosition);
             statusSpinner.setSelection(statusPosition);
             startDate.setText(intent.getStringExtra(EXTRA_START));
             endDate.setText(intent.getStringExtra(EXTRA_END));
@@ -404,14 +402,11 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         String text = parent.getItemAtPosition(position).toString();
         int pos = parent.getSelectedItemPosition();
         String positionString = String.valueOf(pos);
-        System.out.println("Pos: " + pos);
-        System.out.println("Text: " + text);
+
         statusPosition = pos;
+
         getIntent().putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, positionString);
         getIntent().putExtra(AddEditCourseActivity.EXTRA_STATUS, text);
-        System.out.println("onitem: " + getIntent().getStringExtra(AddEditCourseActivity.EXTRA_STATUS_POS));
-        System.out.println("onitemText: " + getIntent().getStringExtra(AddEditCourseActivity.EXTRA_STATUS));
-
 
     }
 

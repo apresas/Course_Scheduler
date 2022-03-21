@@ -9,4 +9,9 @@
         <item>Dropped</item>
         <item>Plan to Take</item>
     </string-array>
+
+    <string-array name="type">
+        <item>Objective</item>
+        <item>Performance</item>
+    </string-array>
 </resources>

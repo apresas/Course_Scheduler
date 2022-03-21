@@ -146,9 +146,7 @@ public class AddEditTermActivity extends AppCompatActivity {
                 intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
                 intent.putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, course.getInstructorName());
                 intent.putExtra(AddEditCourseActivity.EXTRA_STATUS, course.getStatus());
-                System.out.println("Course Status Position: " + AddEditCourseActivity.statusPosition);
                 intent.putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, AddEditCourseActivity.statusPosition);
-                System.out.println("Status From Term Screen: " + intent.getStringExtra(AddEditCourseActivity.EXTRA_STATUS_POS));
                 intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
                 intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
                 activityUpdateResultLauncher.launch(intent);
