@@ -66,11 +66,7 @@ public class AddEditTermActivity extends AppCompatActivity {
     String dateFormat = "MM/dd/yy";
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
     private CourseViewModel courseViewModel;
-
-
-
-
-
+    static int courseTermID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +79,6 @@ public class AddEditTermActivity extends AppCompatActivity {
         endDate = findViewById(R.id.editEnd);
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
-
-
-
 
         // Floating Button
         FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_course);
@@ -130,9 +123,9 @@ public class AddEditTermActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                courseViewModel.delete(adapter.getCourseAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(AddEditTermActivity.this, "Course Deleted", Toast.LENGTH_SHORT).show();
-            }
+                    courseViewModel.delete(adapter.getCourseAt(viewHolder.getAdapterPosition()));
+                    Toast.makeText(AddEditTermActivity.this, "Course Deleted", Toast.LENGTH_SHORT).show();
+                }
         }).attachToRecyclerView(recyclerView);
 
         // OnClick Fill Form
@@ -144,7 +137,8 @@ public class AddEditTermActivity extends AppCompatActivity {
                 intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, course.getCourseID());
                 intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, String.valueOf(course.getTermID()));
                 intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
-                intent.putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, course.getInstructorName());
+//                intent.putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, course.getInstructorName());
+                intent.putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, AddEditCourseActivity.instructorPosition);
                 intent.putExtra(AddEditCourseActivity.EXTRA_STATUS, course.getStatus());
                 intent.putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, AddEditCourseActivity.statusPosition);
                 intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());

@@ -36,6 +36,8 @@ import java.util.List;
 public class TermActivity extends AppCompatActivity {
 
     private TermViewModel termViewModel;
+    CourseViewModel courseViewModel;
+    CourseDAO courseDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +81,9 @@ public class TermActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                    termViewModel.delete(adapter.getTermAt(viewHolder.getAdapterPosition()));
-                    int termID = adapter.getTermAt(viewHolder.getAdapterPosition()).getTermID();
-                    Toast.makeText(TermActivity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
+//                int termID = adapter.getTermAt(viewHolder.getAdapterPosition()).getTermID();
+                termViewModel.delete(adapter.getTermAt(viewHolder.getAdapterPosition()));
+                Toast.makeText(TermActivity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerView);
 

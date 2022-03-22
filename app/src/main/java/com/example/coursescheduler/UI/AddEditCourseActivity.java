@@ -72,7 +72,6 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     private TextView editTermID;
     private TextView editCourseID;
     private EditText courseTitle;
-//    private EditText instructorName;
     private Spinner instructorSpinner;
     private TextView startDate;
     private TextView endDate;
@@ -84,10 +83,9 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     String dateFormat = "MM/dd/yy";
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
     private AssessmentViewModel assessmentViewModel;
-    CourseDAO courseDAO;
     static int statusPosition;
     static int instructorPosition;
-    Course course;
+    static int courseTermID;
 
 
     @Override
@@ -98,7 +96,6 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         editTermID = findViewById(R.id.edit_ID);
         editCourseID = findViewById(R.id.edit_courseID);
         courseTitle = findViewById(R.id.edit_text_courseTitle);
-//        instructorName = findViewById(R.id.edit_text_instructorName);
         startDate = findViewById(R.id.editStart);
         endDate = findViewById(R.id.editEnd);
         dateFormat = "MM/dd/yy";
@@ -108,7 +105,24 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         ArrayAdapter<CharSequence> iAdapter = ArrayAdapter.createFromResource(this, R.array.instructor, android.R.layout.simple_spinner_item);
         iAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         instructorSpinner.setAdapter(iAdapter);
-        instructorSpinner.setOnItemSelectedListener(this);
+        instructorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
+                String instructor = parent.getItemAtPosition(position).toString();
+                int iPos = parent.getSelectedItemPosition();
+                String iPositionString = String.valueOf(iPos);
+
+                instructorPosition = iPos;
+
+                getIntent().putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR_POS, iPositionString);
+                getIntent().putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, instructor);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         statusSpinner = findViewById(R.id.status_spinner);
         ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.status, android.R.layout.simple_spinner_item);
@@ -254,7 +268,6 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
             editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
             editCourseID.setText(intent.getStringExtra(EXTRA_COURSE_ID_DISPLAY));
             courseTitle.setText(intent.getStringExtra(EXTRA_TITLE));
-//            instructorName.setText(intent.getStringExtra(EXTRA_INSTRUCTOR));
             instructorSpinner.setSelection(instructorPosition);
             statusSpinner.setSelection(statusPosition);
             startDate.setText(intent.getStringExtra(EXTRA_START));
@@ -280,7 +293,6 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
     private void saveCourse() {
         String title = courseTitle.getText().toString();
-//        String instructor = instructorName.getText().toString();
         String instructor = instructorSpinner.getSelectedItem().toString();
         String status = statusSpinner.getSelectedItem().toString();
         String start = startDate.getText().toString();
@@ -409,6 +421,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
             }
     );
 
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
         String text = parent.getItemAtPosition(position).toString();
@@ -420,19 +433,12 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         getIntent().putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, positionString);
         getIntent().putExtra(AddEditCourseActivity.EXTRA_STATUS, text);
 
-        String instructor = parent.getItemAtPosition(position).toString();
-        int iPos = parent.getSelectedItemPosition();
-        String iPositionString = String.valueOf(iPos);
-
-        instructorPosition = iPos;
-
-        getIntent().putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR_POS, iPositionString);
-        getIntent().putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, instructor);
-
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+
 }
