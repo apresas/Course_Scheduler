@@ -24,4 +24,6 @@
         android:background="@drawable/et_layout"
         android:layout_below="@id/edit_note_title"
         android:hint="Add Comment" />
+
+
 </RelativeLayout>

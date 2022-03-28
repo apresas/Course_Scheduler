@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.coursescheduler.Database.ScheduleRepo;
 import com.example.coursescheduler.Entity.Course;
+import com.example.coursescheduler.Entity.Note;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -66,6 +67,7 @@ public class AddEditTermActivity extends AppCompatActivity {
     String dateFormat = "MM/dd/yy";
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
     private CourseViewModel courseViewModel;
+    private NoteViewModel noteViewModel;
     static int courseTermID;
 
     @Override
@@ -103,6 +105,7 @@ public class AddEditTermActivity extends AppCompatActivity {
         final CourseAdapter adapter = new CourseAdapter();
         recyclerView.setAdapter(adapter);
 
+
         // View Model
         courseViewModel = new ViewModelProvider(this).get(CourseViewModel.class);
 
@@ -137,12 +140,16 @@ public class AddEditTermActivity extends AppCompatActivity {
                 intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, course.getCourseID());
                 intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, String.valueOf(course.getTermID()));
                 intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
-//                intent.putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, course.getInstructorName());
                 intent.putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, AddEditCourseActivity.instructorPosition);
                 intent.putExtra(AddEditCourseActivity.EXTRA_STATUS, course.getStatus());
                 intent.putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, AddEditCourseActivity.statusPosition);
                 intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
                 intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
+                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_ID, AddEditCourseActivity.nID);
+                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_TITLE, AddEditCourseActivity.noteTitle);
+                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_BODY, AddEditCourseActivity.noteBody);
+                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_COURSE_ID, String.valueOf(course.getCourseID()));
+//                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_COURSE_ID, AddEditCourseActivity.courseID);
                 activityUpdateResultLauncher.launch(intent);
 
 
@@ -271,6 +278,23 @@ public class AddEditTermActivity extends AppCompatActivity {
 
                         courseViewModel.insert(course);
 
+                        int cID = course.getCourseID();
+
+                        System.out.println("cID: " + cID);
+
+//                        String noteTitle = AddEditCourseActivity.noteTitle;
+//                        String noteBody = AddEditCourseActivity.noteBody;
+//                        int noteCourseID = AddEditCourseActivity.noteCourseID;
+//                        System.out.println("Note Title: " + noteTitle);
+//                        System.out.println("Note: " + noteBody);
+//                        System.out.println("Note CourseID: " + noteCourseID);
+//
+//                        Note note = new Note(noteTitle, noteBody, noteCourseID);
+//                        System.out.println(note.getCourseID());
+//                        noteViewModel.insert(note);
+
+
+
 
                         Toast.makeText(AddEditTermActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
@@ -315,9 +339,47 @@ public class AddEditTermActivity extends AppCompatActivity {
                         int termID = Integer.parseInt(ID);
                         int courseID = result.getData().getIntExtra(AddEditCourseActivity.EXTRA_COURSE_ID, -1);
 
+//                        System.out.println("Title: " + title);
+//                        System.out.println("status: " + status);
+                        System.out.println("Set Course ID: " + courseID);
+
                         Course course = new Course(title, instructor, status, start, end, termID);
                         course.setCourseID(courseID);
                         courseViewModel.update(course);
+
+
+//                        String noteTitle = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_NOTE_TITLE);
+//                        String noteBody = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_NOTE_BODY);
+//                        int noteID = result.getData().getIntExtra(AddEditCourseActivity.EXTRA_NOTE_ID, -1);
+
+                        String noteTitle = AddEditCourseActivity.noteTitle;
+                        String noteBody = AddEditCourseActivity.noteBody;
+//                        int noteID = AddEditCourseActivity.nID;
+
+                        System.out.println("Title " + AddEditCourseActivity.noteTitle);
+                        System.out.println("Body " + AddEditCourseActivity.noteBody);
+                        System.out.println("Note Course ID " + courseID);
+                        System.out.println("Note ID " + AddEditCourseActivity.nID);
+
+                        Note note = new Note(noteTitle, noteBody, courseID);
+                        int noteID = note.getNoteID();
+                        System.out.println("Note ID Test: " + noteID);
+//                        note.setNoteID(noteID);
+                        noteViewModel.update(note);
+
+//                        int noteID = result.getData().getIntExtra(AddEditCourseActivity.EXTRA_NOTE_ID, -1);
+//
+//                        String noteTitle = AddEditCourseActivity.noteTitle;
+//                        String noteBody = AddEditCourseActivity.noteBody;
+//                        int noteCourseID = AddEditCourseActivity.noteCourseID;
+//                        System.out.println("Note Title: " + noteTitle);
+//                        System.out.println("Note: " + noteBody);
+//                        System.out.println("Note CourseID: " + noteCourseID);
+//
+//                        Note note = new Note(noteTitle, noteBody, courseID);
+//                        note.setNoteID(noteID);
+//                        noteViewModel.update(note);
+
 
                         Toast.makeText(AddEditTermActivity.this, "Updated", Toast.LENGTH_SHORT).show();
 

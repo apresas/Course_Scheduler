@@ -209,6 +209,23 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         />
 
+        <TextView
+            android:id="@+id/note_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Note Title"
+            android:layout_marginTop="5dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            />
+
+        <TextView
+            android:id="@+id/note_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Note Comment"
+            android:layout_marginTop="5dp"
+            />
+
         <Button
             android:id="@+id/addNoteBtn"
             android:layout_width="wrap_content"
@@ -216,6 +233,8 @@
             android:text="Add Note"
             android:layout_marginTop="7dp"
             />
+
+
 
         <TextView
             android:id="@+id/assessmentListTextView"

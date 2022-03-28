@@ -46,7 +46,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEditCourseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class AddEditCourseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, NoteDialog.DialogListener {
 
     public static final String EXTRA_COURSE_ID_DISPLAY =
             "com.example.coursescheduler.EXTRA_COURSE_ID_DISPLAY";
@@ -68,6 +68,14 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
             "com.example.coursescheduler.EXTRA_START";
     public static final String EXTRA_END =
             "com.example.coursescheduler.EXTRA_END";
+    public static final String EXTRA_NOTE_TITLE =
+            "com.example.coursescheduler.EXTRA_NOTE_TITLE";
+    public static final String EXTRA_NOTE_BODY =
+            "com.example.coursescheduler.EXTRA_NOTE_BODY";
+    public static final String EXTRA_NOTE_ID =
+            "com.example.coursescheduler.EXTRA_NOTE_ID";
+    public static final String EXTRA_NOTE_COURSE_ID =
+            "com.example.coursescheduler.EXTRA_NOTE_COURSE_ID";
 
     private TextView editTermID;
     private TextView editCourseID;
@@ -82,10 +90,19 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     final Calendar calendarStart = Calendar.getInstance();
     String dateFormat = "MM/dd/yy";
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
+    private EditText editTextTitle;
+    private EditText editTextNote;
+    private TextView textViewTitle;
+    private TextView textViewNote;
     private AssessmentViewModel assessmentViewModel;
     static int statusPosition;
     static int instructorPosition;
     static int courseTermID;
+    static int courseID;
+    static int noteCourseID;
+    static int nID;
+    static String noteTitle;
+    static String noteBody;
 
 
     @Override
@@ -100,6 +117,15 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         endDate = findViewById(R.id.editEnd);
         dateFormat = "MM/dd/yy";
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
+
+
+
+
+//        editTextTitle = (EditText) findViewById(R.id.edit_note_title);
+//        editTextNote = (EditText) findViewById(R.id.edit_note_comment);
+        textViewTitle = findViewById(R.id.note_title);
+        textViewNote = findViewById(R.id.note_body);
+
 
         instructorSpinner = findViewById(R.id.instructor_spinner);
         ArrayAdapter<CharSequence> iAdapter = ArrayAdapter.createFromResource(this, R.array.instructor, android.R.layout.simple_spinner_item);
@@ -286,6 +312,12 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         noteDialog.show(getSupportFragmentManager(), "note dialog");
     }
 
+    @Override
+    public void applyText(String title, String note) {
+        textViewTitle.setText(title);
+        textViewNote.setText(note);
+    }
+
     private void updateLabelStart() {startDate.setText(sdf.format(calendarStart.getTime()));}
     private void updateLabelEnd() {
         endDate.setText(sdf.format(calendarStart.getTime()));
@@ -313,13 +345,49 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         data.putExtra(EXTRA_END, end);
 
         int id = getIntent().getIntExtra(EXTRA_COURSE_ID, -1);
+        System.out.println("Save Course ID: " + id);
         if (id != -1) {
-            System.out.println(EXTRA_COURSE_ID);
             data.putExtra(EXTRA_COURSE_ID, id);
+            System.out.println("Save Course IF ID: " + id);
         }
+        System.out.println("Save Course ELSE ID: " + id);
         setResult(RESULT_OK, data);
         finish();
 
+        courseID = id;
+        System.out.println("courseID: " + courseID + "ID: " + id);
+
+
+    }
+
+    private void saveNote() {
+        int ID = courseID;
+        String title = textViewTitle.getText().toString();
+        String note = textViewNote.getText().toString();
+
+
+        Intent noteData = new Intent();
+        noteData.putExtra(EXTRA_NOTE_COURSE_ID, String.valueOf(ID));
+        noteData.putExtra(EXTRA_NOTE_TITLE, title);
+        noteData.putExtra(EXTRA_NOTE_BODY, note);
+
+
+
+        int noteID = getIntent().getIntExtra(EXTRA_NOTE_ID, -1);
+        System.out.println("Save Note ID: " + noteID);
+        if (noteID != -1) {
+            noteData.putExtra(EXTRA_NOTE_ID, noteID);
+            System.out.println("Save Note IF ID: " + noteID);
+
+        }
+        System.out.println("Save Note ELSE ID: " + noteID);
+
+        noteTitle = title;
+        noteBody = note;
+        noteCourseID = ID;
+        nID = noteID;
+        setResult(RESULT_OK, noteData);
+        finish();
 
     }
 
@@ -361,12 +429,18 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         switch (item.getItemId()) {
             case R.id.save_course:
                 saveCourse();
+                System.out.println("Course ID: " + courseID);
+//                saveNote();
                 return true;
             case R.id.share:
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "Text for note field.");
-                sendIntent.putExtra(Intent.EXTRA_TITLE, "Note Title");
+//                String title = sendIntent.getStringExtra(Intent.EXTRA_TITLE);
+//                String note = sendIntent.getStringExtra(Intent.EXTRA_TEXT);
+                String nTitle = textViewTitle.getText().toString();
+                String nBody = textViewNote.getText().toString();
+                sendIntent.putExtra(Intent.EXTRA_TEXT, nBody);
+                sendIntent.putExtra(Intent.EXTRA_TITLE, nTitle);
                 sendIntent.setType("text/plain");
                 Intent shareIntent = Intent.createChooser(sendIntent, null);
                 startActivity(shareIntent);
