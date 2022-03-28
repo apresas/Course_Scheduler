@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.coursescheduler.DAO.CourseDAO;
 import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
+import com.example.coursescheduler.Entity.Note;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -95,6 +96,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     private TextView textViewTitle;
     private TextView textViewNote;
     private AssessmentViewModel assessmentViewModel;
+    private NoteViewModel noteViewModel;
     static int statusPosition;
     static int instructorPosition;
     static int courseTermID;
@@ -123,8 +125,8 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
 //        editTextTitle = (EditText) findViewById(R.id.edit_note_title);
 //        editTextNote = (EditText) findViewById(R.id.edit_note_comment);
-        textViewTitle = findViewById(R.id.note_title);
-        textViewNote = findViewById(R.id.note_body);
+//        textViewTitle = findViewById(R.id.note_title);
+//        textViewNote = findViewById(R.id.note_body);
 
 
         instructorSpinner = findViewById(R.id.instructor_spinner);
@@ -232,6 +234,58 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
             }
         });
+
+
+        // Recycler View
+        RecyclerView noteRecyclerView = findViewById(R.id.note_recycler);
+        noteRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        noteRecyclerView.setHasFixedSize(true);
+
+        // Adapter
+        final NoteAdapter noteAdapter = new NoteAdapter();
+        noteRecyclerView.setAdapter(noteAdapter);
+
+        // View Model
+        noteViewModel = new ViewModelProvider(this).get(NoteViewModel.class);
+
+        noteViewModel.getAssignedNotes(getIntent().getIntExtra(EXTRA_COURSE_ID, -1)).observe(this, new Observer<List<Note>>() {
+            @Override
+            public void onChanged(List<Note> notes) {
+                noteAdapter.setNotes(notes);
+            }
+        });
+
+        // Touch helper
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                noteViewModel.delete(noteAdapter.getNoteAt(viewHolder.getAdapterPosition()));
+                Toast.makeText(AddEditCourseActivity.this, "Course Deleted", Toast.LENGTH_SHORT).show();
+            }
+        }).attachToRecyclerView(recyclerView);
+
+        // OnClick Fill Form
+        noteAdapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Note note) {
+                Intent intent = new Intent(AddEditCourseActivity.this, AddEditAssessmentActivity.class);
+                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_ID, String.valueOf(note.getNoteID()));
+                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_TITLE, note.getNoteTitle());
+                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_BODY, note.getNoteBody());
+                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_COURSE_ID, String.valueOf(note.getCourseID()));
+
+                activityUpdateResultLauncher.launch(intent);
+
+            }
+        });
+
+
 
         // Start Date onClick
         startDate.setOnClickListener(new View.OnClickListener() {
@@ -360,36 +414,36 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
     }
 
-    private void saveNote() {
-        int ID = courseID;
-        String title = textViewTitle.getText().toString();
-        String note = textViewNote.getText().toString();
-
-
-        Intent noteData = new Intent();
-        noteData.putExtra(EXTRA_NOTE_COURSE_ID, String.valueOf(ID));
-        noteData.putExtra(EXTRA_NOTE_TITLE, title);
-        noteData.putExtra(EXTRA_NOTE_BODY, note);
-
-
-
-        int noteID = getIntent().getIntExtra(EXTRA_NOTE_ID, -1);
-        System.out.println("Save Note ID: " + noteID);
-        if (noteID != -1) {
-            noteData.putExtra(EXTRA_NOTE_ID, noteID);
-            System.out.println("Save Note IF ID: " + noteID);
-
-        }
-        System.out.println("Save Note ELSE ID: " + noteID);
-
-        noteTitle = title;
-        noteBody = note;
-        noteCourseID = ID;
-        nID = noteID;
-        setResult(RESULT_OK, noteData);
-        finish();
-
-    }
+//    private void saveNote() {
+//        int ID = courseID;
+//        String title = textViewTitle.getText().toString();
+//        String note = textViewNote.getText().toString();
+//
+//
+//        Intent noteData = new Intent();
+//        noteData.putExtra(EXTRA_NOTE_COURSE_ID, String.valueOf(ID));
+//        noteData.putExtra(EXTRA_NOTE_TITLE, title);
+//        noteData.putExtra(EXTRA_NOTE_BODY, note);
+//
+//
+//
+//        int noteID = getIntent().getIntExtra(EXTRA_NOTE_ID, -1);
+//        System.out.println("Save Note ID: " + noteID);
+//        if (noteID != -1) {
+//            noteData.putExtra(EXTRA_NOTE_ID, noteID);
+//            System.out.println("Save Note IF ID: " + noteID);
+//
+//        }
+//        System.out.println("Save Note ELSE ID: " + noteID);
+//
+//        noteTitle = title;
+//        noteBody = note;
+//        noteCourseID = ID;
+//        nID = noteID;
+//        setResult(RESULT_OK, noteData);
+//        finish();
+//
+//    }
 
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),

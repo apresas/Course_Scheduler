@@ -3,6 +3,7 @@ package com.example.coursescheduler.UI;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.lifecycle.LiveData;
 
+import com.example.coursescheduler.Entity.Note;
 import com.example.coursescheduler.R;
+
+import java.util.List;
 
 public class NoteDialog extends AppCompatDialogFragment {
     private EditText editTextTitle;
@@ -22,6 +27,8 @@ public class NoteDialog extends AppCompatDialogFragment {
     private TextView textViewTitle;
     private TextView textViewNote;
     private DialogListener listener;
+    private NoteViewModel noteViewModel;
+    int position;
 
     @NonNull
     @Override
@@ -44,6 +51,7 @@ public class NoteDialog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String title = editTextTitle.getText().toString();
                         String note = editTextNote.getText().toString();
+                        saveNote();
                         listener.applyText(title,note);
 
 
@@ -72,5 +80,51 @@ public class NoteDialog extends AppCompatDialogFragment {
 
     public interface DialogListener {
         void applyText(String title, String note);
+    }
+
+    private void saveNote() {
+        int ID = AddEditCourseActivity.courseID;
+        String title = textViewTitle.getText().toString();
+        String note = textViewNote.getText().toString();
+
+        LiveData<List<Note>> assignedNotes = noteViewModel.getAssignedNotes(ID);
+        Note currentNote = assignedNotes.getValue().get(position);
+
+        Note newNote = new Note(title, note, ID);
+
+
+        if (assignedNotes.getValue().contains(newNote)){
+            noteViewModel.update(newNote);
+        } else {
+            noteViewModel.insert(newNote);
+        }
+//        int ID = AddEditCourseActivity.courseID;
+//        String title = textViewTitle.getText().toString();
+//        String note = textViewNote.getText().toString();
+//
+//
+//        Intent noteData = new Intent();
+//        noteData.putExtra(AddEditCourseActivity.EXTRA_NOTE_COURSE_ID, String.valueOf(ID));
+//        noteData.putExtra(AddEditCourseActivity.EXTRA_NOTE_TITLE, title);
+//        noteData.putExtra(AddEditCourseActivity.EXTRA_NOTE_BODY, note);
+//
+//
+//
+//        int noteID = getIntent().getIntExtra(AddEditCourseActivity.EXTRA_NOTE_ID, -1);
+//        System.out.println("Save Note ID: " + noteID);
+//        if (noteID != -1) {
+//            noteData.putExtra(AddEditCourseActivity.EXTRA_NOTE_ID, noteID);
+//            System.out.println("Save Note IF ID: " + noteID);
+//
+//        }
+//        System.out.println("Save Note ELSE ID: " + noteID);
+//
+//        noteTitle = title;
+//        noteBody = note;
+//        noteCourseID = ID;
+//        nID = noteID;
+//        setResult(RESULT_OK, noteData);
+//        finish();
+
     }
 }

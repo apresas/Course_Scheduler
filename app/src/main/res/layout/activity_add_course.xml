@@ -169,71 +169,90 @@
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/startTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Start Date:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:layout_marginTop="10dp"
-        />
+            <RelativeLayout
+                android:id="@+id/start_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/editStart"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="MM/DD/YY"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        />
+                <TextView
+                    android:id="@+id/startTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Start Date:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <TextView
-        android:layout_marginTop="10dp"
-        android:id="@+id/endTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="End Date:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                <TextView
+                    android:id="@+id/editStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/startTextView"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="MM/DD/YY"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            </RelativeLayout>
 
-        />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true">
 
-    <TextView
-        android:id="@+id/editEnd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="MM/DD/YY"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        />
+                <TextView
+                    android:id="@+id/endTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="End Date:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
 
+                    />
+
+                <TextView
+                    android:id="@+id/editEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/endTextView"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="MM/DD/YY"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            </RelativeLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
         <TextView
             android:id="@+id/note_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Note Title"
+            android:hint="Note Title: "
             android:layout_marginTop="5dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             />
 
-        <TextView
-            android:id="@+id/note_body"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Note Comment"
-            android:layout_marginTop="5dp"
-            />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/note_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_below="@id/note_title"
+                tools:listitem="@layout/note_item"
+                />
+
 
         <Button
             android:id="@+id/addNoteBtn"
+            android:layout_below="@id/note_recycler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Note"
             android:layout_marginTop="7dp"
             />
-
+    </RelativeLayout>
 
 
         <TextView
