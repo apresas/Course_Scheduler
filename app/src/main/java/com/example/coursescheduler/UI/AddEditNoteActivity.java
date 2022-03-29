@@ -86,7 +86,7 @@ public class AddEditNoteActivity extends AppCompatActivity  {
         // Select Label
         if(data.hasExtra(EXTRA_NOTE_ID)) {
             setTitle("Edit Note");
-            editCourseID.setText(String.valueOf(AddEditCourseActivity.noteCourseID));
+            editCourseID.setText(String.valueOf(noteCourseIDLocal));
             editNoteID.setText(data.getStringExtra(EXTRA_NOTE_ID_DISPLAY));
             editNoteTitle.setText(data.getStringExtra(EXTRA_NOTE_TITLE));
             editNoteComment.setText(data.getStringExtra(EXTRA_NOTE_BODY));
@@ -141,10 +141,10 @@ public class AddEditNoteActivity extends AppCompatActivity  {
             case R.id.share:
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-//                String nTitle = textViewTitle.getText().toString();
-//                String nBody = textViewNote.getText().toString();
-//                sendIntent.putExtra(Intent.EXTRA_TEXT, nBody);
-//                sendIntent.putExtra(Intent.EXTRA_TITLE, nTitle);
+                String nTitle = editNoteTitle.getText().toString();
+                String nBody = editNoteComment.getText().toString();
+                sendIntent.putExtra(Intent.EXTRA_TEXT, nBody);
+                sendIntent.putExtra(Intent.EXTRA_TITLE, nTitle);
                 sendIntent.setType("text/plain");
                 Intent shareIntent = Intent.createChooser(sendIntent, null);
                 startActivity(shareIntent);

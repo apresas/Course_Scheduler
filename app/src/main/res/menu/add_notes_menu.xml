@@ -11,8 +11,4 @@
     <item android:title="Share Notes"
         android:orderInCategory="100"
         android:id="@+id/share"/>
-    <item android:title="Notify"
-        android:orderInCategory="100"
-        android:id="@+id/notify"
-        />
 </menu>

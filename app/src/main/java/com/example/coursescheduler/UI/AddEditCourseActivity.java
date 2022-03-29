@@ -84,21 +84,17 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     final Calendar calendarStart = Calendar.getInstance();
     String dateFormat = "MM/dd/yy";
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
-    private EditText editTextTitle;
-    private EditText editTextNote;
     private TextView textViewTitle;
     private TextView textViewNote;
+    private TextView textViewNoteCourseID;
+    private TextView textViewNoteID;
     private AssessmentViewModel assessmentViewModel;
     private NoteViewModel noteViewModel;
     static int statusPosition;
     static int instructorPosition;
-    static int courseTermID;
     static int courseID;
     static int noteCourseID;
-    static int nID;
-    static String noteTitle;
-    static String noteBody;
-    Note note;
+
 
 
     @Override
@@ -119,8 +115,9 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
 //        editTextTitle = (EditText) findViewById(R.id.edit_note_title);
 //        editTextNote = (EditText) findViewById(R.id.edit_note_comment);
-//        textViewTitle = findViewById(R.id.note_title);
-//        textViewNote = findViewById(R.id.note_body);
+        textViewTitle = findViewById(R.id.text_view_note_title);
+        textViewNote = findViewById(R.id.edit_note_body);
+
 
 
 
@@ -463,21 +460,6 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         switch (item.getItemId()) {
             case R.id.save_course:
                 saveCourse();
-                System.out.println("Course ID: " + courseID);
-//                saveNote();
-                return true;
-            case R.id.share:
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-//                String title = sendIntent.getStringExtra(Intent.EXTRA_TITLE);
-//                String note = sendIntent.getStringExtra(Intent.EXTRA_TEXT);
-                String nTitle = textViewTitle.getText().toString();
-                String nBody = textViewNote.getText().toString();
-                sendIntent.putExtra(Intent.EXTRA_TEXT, nBody);
-                sendIntent.putExtra(Intent.EXTRA_TITLE, nTitle);
-                sendIntent.setType("text/plain");
-                Intent shareIntent = Intent.createChooser(sendIntent, null);
-                startActivity(shareIntent);
                 return true;
             case R.id.notify:
                 String dateFromScreen = startDate.getText().toString();
