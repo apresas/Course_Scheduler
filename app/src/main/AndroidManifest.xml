@@ -13,6 +13,11 @@
             android:name=".UI.MyReceiver"
             android:enabled="true"
             android:exported="true" />
+        <activity
+            android:name=".UI.AddEditNoteActivity"
+            android:parentActivityName=".UI.AddEditCourseActivity"
+            android:launchMode="singleTop"
+            android:exported="false" />
        <activity
            android:name=".UI.AddEditTermActivity"
            android:parentActivityName=".UI.TermActivity"

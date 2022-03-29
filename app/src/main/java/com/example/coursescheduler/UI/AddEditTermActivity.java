@@ -145,11 +145,6 @@ public class AddEditTermActivity extends AppCompatActivity {
                 intent.putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, AddEditCourseActivity.statusPosition);
                 intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
                 intent.putExtra(AddEditCourseActivity.EXTRA_END, course.getEndDate());
-//                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_ID, AddEditCourseActivity.nID);
-//                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_TITLE, AddEditCourseActivity.noteTitle);
-//                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_BODY, AddEditCourseActivity.noteBody);
-//                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_COURSE_ID, String.valueOf(course.getCourseID()));
-//                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_COURSE_ID, AddEditCourseActivity.courseID);
                 activityUpdateResultLauncher.launch(intent);
 
 

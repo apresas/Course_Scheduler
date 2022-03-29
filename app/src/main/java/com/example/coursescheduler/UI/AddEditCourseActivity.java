@@ -47,7 +47,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AddEditCourseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, NoteDialog.DialogListener {
+public class AddEditCourseActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String EXTRA_COURSE_ID_DISPLAY =
             "com.example.coursescheduler.EXTRA_COURSE_ID_DISPLAY";
@@ -69,14 +69,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
             "com.example.coursescheduler.EXTRA_START";
     public static final String EXTRA_END =
             "com.example.coursescheduler.EXTRA_END";
-    public static final String EXTRA_NOTE_TITLE =
-            "com.example.coursescheduler.EXTRA_NOTE_TITLE";
-    public static final String EXTRA_NOTE_BODY =
-            "com.example.coursescheduler.EXTRA_NOTE_BODY";
-    public static final String EXTRA_NOTE_ID =
-            "com.example.coursescheduler.EXTRA_NOTE_ID";
-    public static final String EXTRA_NOTE_COURSE_ID =
-            "com.example.coursescheduler.EXTRA_NOTE_COURSE_ID";
+
 
     private TextView editTermID;
     private TextView editCourseID;
@@ -105,6 +98,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     static int nID;
     static String noteTitle;
     static String noteBody;
+    Note note;
 
 
     @Override
@@ -127,6 +121,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 //        editTextNote = (EditText) findViewById(R.id.edit_note_comment);
 //        textViewTitle = findViewById(R.id.note_title);
 //        textViewNote = findViewById(R.id.note_body);
+
 
 
         instructorSpinner = findViewById(R.id.instructor_spinner);
@@ -162,7 +157,13 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         noteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openDialog();
+                Intent intent = new Intent(AddEditCourseActivity.this, AddEditNoteActivity.class);
+                String nCourseID = editCourseID.getText().toString();
+                System.out.println("Note Course ID: " + nCourseID);
+                noteCourseID = Integer.parseInt(nCourseID);
+                System.out.println("Static Note: " + noteCourseID);
+                noteActivityResultLauncher.launch(intent);
+//                openDialog();
             }
         });
 
@@ -182,6 +183,8 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
             }
         });
+
+
 
         // Recycler View
         RecyclerView recyclerView = findViewById(R.id.assessmentRecyclerView);
@@ -274,11 +277,15 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         noteAdapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Note note) {
-                Intent intent = new Intent(AddEditCourseActivity.this, AddEditAssessmentActivity.class);
-                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_ID, String.valueOf(note.getNoteID()));
-                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_TITLE, note.getNoteTitle());
-                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_BODY, note.getNoteBody());
-                intent.putExtra(AddEditCourseActivity.EXTRA_NOTE_COURSE_ID, String.valueOf(note.getCourseID()));
+                Intent intent = new Intent(AddEditCourseActivity.this, AddEditNoteActivity.class);
+                System.out.println("Get NoteID: " + note.getNoteID());
+//                intent.putExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID_DISPLAY, String.valueOf(note.getCourseID()));
+                intent.putExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID_DISPLAY, noteCourseID);
+                intent.putExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID, note.getCourseID());
+                intent.putExtra(AddEditNoteActivity.EXTRA_NOTE_ID_DISPLAY, String.valueOf(note.getNoteID()));
+                intent.putExtra(AddEditNoteActivity.EXTRA_NOTE_ID, note.getNoteID());
+                intent.putExtra(AddEditNoteActivity.EXTRA_NOTE_TITLE, note.getNoteTitle());
+                intent.putExtra(AddEditNoteActivity.EXTRA_NOTE_BODY, note.getNoteBody());
 
                 activityUpdateResultLauncher.launch(intent);
 
@@ -342,6 +349,8 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
         //Intent
         Intent intent = getIntent();
+//        courseID = Integer.parseInt(editCourseID.getText().toString());
+
         // Select Label
         if(intent.hasExtra(EXTRA_COURSE_ID)) {
             setTitle("Edit Course");
@@ -361,16 +370,16 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
     }
 
-    public void openDialog() {
-        NoteDialog noteDialog = new NoteDialog();
-        noteDialog.show(getSupportFragmentManager(), "note dialog");
-    }
+//    public void openDialog() {
+//        NoteDialog noteDialog = new NoteDialog();
+//        noteDialog.show(getSupportFragmentManager(), "note dialog");
+//    }
 
-    @Override
-    public void applyText(String title, String note) {
-        textViewTitle.setText(title);
-        textViewNote.setText(note);
-    }
+//    @Override
+//    public void applyText(String title, String note) {
+//        textViewTitle.setText(title);
+//        textViewNote.setText(note);
+//    }
 
     private void updateLabelStart() {startDate.setText(sdf.format(calendarStart.getTime()));}
     private void updateLabelEnd() {
@@ -462,6 +471,19 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
                         assessmentViewModel.insert(assessment);
 
+
+                        String noteTitle = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_TITLE);
+                        String noteComment = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_BODY);
+//                        String noteCourseID = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID);
+                        String noteCourseID = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID_DISPLAY);
+
+
+
+                        Note note = new Note(noteTitle, noteComment, Integer.parseInt(noteCourseID));
+
+                        noteViewModel.insert(note);
+
+
                         Toast.makeText(AddEditCourseActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
                     }else {
@@ -540,6 +562,16 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                         assessment.setAssessmentID(assessmentID);
                         assessmentViewModel.update(assessment);
 
+
+                        String noteTitle = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_TITLE);
+                        String noteComment = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_BODY);
+                        String noteCourseID = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID);
+                        int noteID = result.getData().getIntExtra(AddEditNoteActivity.EXTRA_NOTE_ID, -1);
+
+                        Note note = new Note(noteTitle, noteComment, Integer.parseInt(noteCourseID));
+                        note.setNoteID(noteID);
+                        noteViewModel.update(note);
+
                         Toast.makeText(AddEditCourseActivity.this, "Updated", Toast.LENGTH_SHORT).show();
 
                     }else {
@@ -567,6 +599,58 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+
+    private final ActivityResultLauncher<Intent> noteActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK){
+                        String noteTitle = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_TITLE);
+                        String noteComment = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_BODY);
+//                        String noteCourseID = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID);
+                        String noteCourseIDString = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID_DISPLAY);
+
+
+
+                        Note note = new Note(noteTitle, noteComment, noteCourseID);
+
+                        noteViewModel.insert(note);
+
+
+                        Toast.makeText(AddEditCourseActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+
+                    }else {
+                        Toast.makeText(AddEditCourseActivity.this, "Unsuccessful", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    );
+
+    private ActivityResultLauncher<Intent> noteActivityUpdateResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK){
+                        String noteTitle = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_TITLE);
+                        String noteComment = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_BODY);
+                        String noteCourseID = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID_DISPLAY);
+                        int noteID = result.getData().getIntExtra(AddEditNoteActivity.EXTRA_NOTE_ID, -1);
+
+                        Note note = new Note(noteTitle, noteComment, Integer.parseInt(noteCourseID));
+                        note.setNoteID(noteID);
+                        noteViewModel.update(note);
+
+                        Toast.makeText(AddEditCourseActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+
+                    }else {
+                        Toast.makeText(AddEditCourseActivity.this, "NOT Updated", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    );
 
 
 }
