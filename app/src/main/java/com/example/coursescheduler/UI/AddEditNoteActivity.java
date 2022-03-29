@@ -63,13 +63,7 @@ public class AddEditNoteActivity extends AppCompatActivity  {
     private TextView editCourseID;
     private EditText editNoteTitle;
     private EditText editNoteComment;
-
     private int noteCourseIDLocal;
-
-    private AssessmentViewModel assessmentViewModel;
-    private NoteViewModel noteViewModel;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +90,6 @@ public class AddEditNoteActivity extends AppCompatActivity  {
             editNoteID.setText(data.getStringExtra(EXTRA_NOTE_ID_DISPLAY));
             editNoteTitle.setText(data.getStringExtra(EXTRA_NOTE_TITLE));
             editNoteComment.setText(data.getStringExtra(EXTRA_NOTE_BODY));
-//            System.out.println("Note Course ID IF: " + ID);
         } else {
             setTitle("Add Note");
             editCourseID.setText(String.valueOf(noteCourseIDLocal));
@@ -104,9 +97,6 @@ public class AddEditNoteActivity extends AppCompatActivity  {
         }
 
     }
-
-
-
 
     private void saveNote() {
         String noteCourseID = editCourseID.getText().toString();
