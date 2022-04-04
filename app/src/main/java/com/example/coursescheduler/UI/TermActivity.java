@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Observable;
 
 public class TermActivity extends AppCompatActivity {
 
@@ -41,9 +42,8 @@ public class TermActivity extends AppCompatActivity {
     CourseViewModel courseViewModel;
     CourseDAO courseDAO;
     private static int swipeID;
-    LiveData<List<Course>> assignedCourse;
-    List<Course> courseList;
-    List<Term> termList;
+    ScheduleRepo repository;
+    private LiveData<List<Course>> assignedCourses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +70,7 @@ public class TermActivity extends AppCompatActivity {
         final CourseAdapter courseAdapter = new CourseAdapter();
 
 
+
         termViewModel = new ViewModelProvider(this).get(TermViewModel.class);
 
         termViewModel.getAllTerms().observe(this, new Observer<List<Term>>() {
@@ -90,9 +91,11 @@ public class TermActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int termID = adapter.getTermAt(viewHolder.getAdapterPosition()).getTermID();
+                System.out.println("Term ID: " + termID);
+                if (courseViewModel.getAssignedCourses(termID).getValue().isEmpty()) {}
 //                Toast.makeText(TermActivity.this, "Term has Courses assigned. Please delete Courses.", Toast.LENGTH_SHORT).show();
-                termViewModel.delete(adapter.getTermAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(TermActivity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
+//                termViewModel.delete(adapter.getTermAt(viewHolder.getAdapterPosition()));
+//                Toast.makeText(TermActivity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerView);
 

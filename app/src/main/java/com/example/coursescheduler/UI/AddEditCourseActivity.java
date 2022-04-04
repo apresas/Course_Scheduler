@@ -283,9 +283,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                 intent.putExtra(AddEditNoteActivity.EXTRA_NOTE_TITLE, note.getNoteTitle());
                 intent.putExtra(AddEditNoteActivity.EXTRA_NOTE_BODY, note.getNoteBody());
                 String nCourseID = editCourseID.getText().toString();
-                System.out.println("Note Course ID: " + nCourseID);
                 noteCourseID = Integer.parseInt(nCourseID);
-                System.out.println("Static Note: " + noteCourseID);
 
                 activityUpdateResultLauncher.launch(intent);
 
@@ -432,18 +430,6 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                         assessmentViewModel.insert(assessment);
 
 
-                        String noteTitle = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_TITLE);
-                        String noteComment = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_BODY);
-//                        String noteCourseID = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID);
-                        String noteCourseID = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID_DISPLAY);
-
-
-
-                        Note note = new Note(noteTitle, noteComment, Integer.parseInt(noteCourseID));
-
-                        noteViewModel.insert(note);
-
-
                         Toast.makeText(AddEditCourseActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
                     }else {
@@ -507,15 +493,6 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                         assessment.setAssessmentID(assessmentID);
                         assessmentViewModel.update(assessment);
 
-
-                        String noteTitle = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_TITLE);
-                        String noteComment = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_BODY);
-                        String noteCourseID = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID);
-                        int noteID = result.getData().getIntExtra(AddEditNoteActivity.EXTRA_NOTE_ID, -1);
-
-                        Note note = new Note(noteTitle, noteComment, Integer.parseInt(noteCourseID));
-                        note.setNoteID(noteID);
-                        noteViewModel.update(note);
 
                         Toast.makeText(AddEditCourseActivity.this, "Updated", Toast.LENGTH_SHORT).show();
 

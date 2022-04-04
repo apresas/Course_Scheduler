@@ -45,7 +45,7 @@
                     android:id="@+id/edit_assessmentID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="ID"
+                    android:hint="Auto"
                     android:layout_marginLeft="5dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
 
