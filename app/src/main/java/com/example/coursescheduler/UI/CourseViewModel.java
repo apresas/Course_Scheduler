@@ -24,6 +24,7 @@ public class CourseViewModel extends AndroidViewModel {
     private ScheduleRepo repository;
     private LiveData<List<Course>> allCourses;
     private LiveData<List<Course>> assignedCourses;
+    private List<Course> assignedTermID;
 
     public CourseViewModel(@NonNull Application application) {
         super(application);
@@ -56,5 +57,9 @@ public class CourseViewModel extends AndroidViewModel {
         return assignedCourses;
     }
 
+    public List<Course> getAssignedTermID(int termID) {
+        assignedTermID = repository.getAssignedTermID(termID);
+        return assignedTermID;
+    }
 
 }

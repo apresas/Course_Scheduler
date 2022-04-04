@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.coursescheduler.DAO.CourseDAO;
 import com.example.coursescheduler.Database.ScheduleRepo;
 import com.example.coursescheduler.Entity.Course;
+import com.example.coursescheduler.Entity.Note;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,18 +33,22 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class TermActivity extends AppCompatActivity {
 
     private TermViewModel termViewModel;
     CourseViewModel courseViewModel;
     CourseDAO courseDAO;
+    private static int swipeID;
+    LiveData<List<Course>> assignedCourse;
+    List<Course> courseList;
+    List<Term> termList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_list);
-
 
         FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_term);
         buttonAddTerm.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +67,8 @@ public class TermActivity extends AppCompatActivity {
         final TermAdapter adapter = new TermAdapter();
         recyclerView.setAdapter(adapter);
 
+        final CourseAdapter courseAdapter = new CourseAdapter();
+
 
         termViewModel = new ViewModelProvider(this).get(TermViewModel.class);
 
@@ -72,6 +79,7 @@ public class TermActivity extends AppCompatActivity {
             }
         });
 
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -81,7 +89,8 @@ public class TermActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//                int termID = adapter.getTermAt(viewHolder.getAdapterPosition()).getTermID();
+                int termID = adapter.getTermAt(viewHolder.getAdapterPosition()).getTermID();
+//                Toast.makeText(TermActivity.this, "Term has Courses assigned. Please delete Courses.", Toast.LENGTH_SHORT).show();
                 termViewModel.delete(adapter.getTermAt(viewHolder.getAdapterPosition()));
                 Toast.makeText(TermActivity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
             }

@@ -36,4 +36,7 @@ public interface CourseDAO {
     @Query("SELECT* FROM COURSES WHERE termID = :termID ORDER BY courseID ASC")
     LiveData<List<Course>> getAssignedCourses(int termID);
 
+    @Query("SELECT * FROM COURSES WHERE termID = :termID ORDER BY termID DESC")
+    List<Course> getAssignedTermID(int termID);
+
 }

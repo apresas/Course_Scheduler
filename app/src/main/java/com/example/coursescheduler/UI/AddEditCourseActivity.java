@@ -229,6 +229,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_TYPE_POSITION, AddEditAssessmentActivity.typePosition);
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_START, assessment.getStartDate());
                 intent.putExtra(AddEditAssessmentActivity.EXTRA_END, assessment.getEndDate());
+
                 activityUpdateResultLauncher.launch(intent);
 
             }
@@ -281,6 +282,10 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                 intent.putExtra(AddEditNoteActivity.EXTRA_NOTE_ID, note.getNoteID());
                 intent.putExtra(AddEditNoteActivity.EXTRA_NOTE_TITLE, note.getNoteTitle());
                 intent.putExtra(AddEditNoteActivity.EXTRA_NOTE_BODY, note.getNoteBody());
+                String nCourseID = editCourseID.getText().toString();
+                System.out.println("Note Course ID: " + nCourseID);
+                noteCourseID = Integer.parseInt(nCourseID);
+                System.out.println("Static Note: " + noteCourseID);
 
                 activityUpdateResultLauncher.launch(intent);
 

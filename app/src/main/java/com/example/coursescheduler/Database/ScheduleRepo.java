@@ -31,6 +31,7 @@ public class ScheduleRepo {
     private NoteDAO noteDAO;
     private LiveData<List<Note>> allNotes;
     private LiveData<List<Note>> assignedNotes;
+    private List<Course> assignedTermID;
 
 
 
@@ -146,6 +147,11 @@ public class ScheduleRepo {
     public LiveData<List<Course>> getAssignedCourses(int termID) {
         assignedCourses = courseDAO.getAssignedCourses(termID);
         return assignedCourses;
+    }
+
+    public List<Course> getAssignedTermID(int termID) {
+        assignedTermID = courseDAO.getAssignedTermID(termID);
+        return assignedTermID;
     }
 
     // COURSE ASYNC
