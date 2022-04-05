@@ -27,7 +27,6 @@ public class ScheduleRepo {
     private AssessmentDAO assessmentDAO;
     private LiveData<List<Assessment>> allAssessments;
     private LiveData<List<Course>> assignedCourses;
-    private List<Course> assignedTermIDList;
     private LiveData<List<Assessment>> assignedAssessments;
     private NoteDAO noteDAO;
     private LiveData<List<Note>> allNotes;

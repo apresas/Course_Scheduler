@@ -18,7 +18,7 @@ import com.example.coursescheduler.Entity.Course;
 import com.example.coursescheduler.Entity.Note;
 import com.example.coursescheduler.Entity.Term;
 
-@Database(entities = {Term.class, Course.class, Assessment.class, Note.class}, version = 19)
+@Database(entities = {Term.class, Course.class, Assessment.class, Note.class}, version = 20)
 public abstract class ScheduleDB extends RoomDatabase {
     private static ScheduleDB instance;
     public abstract TermDAO termDAO();
@@ -31,6 +31,7 @@ public abstract class ScheduleDB extends RoomDatabase {
             instance = Room.databaseBuilder(context.getApplicationContext(), ScheduleDB.class, "scheduler_database")
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
+                    .allowMainThreadQueries()
                     .build();
         }
         return instance;

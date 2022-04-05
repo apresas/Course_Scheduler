@@ -17,11 +17,13 @@ public class TermViewModel extends AndroidViewModel {
     private ScheduleRepo repository;
     private LiveData<List<Term>> allTerms;
     private LiveData<List<Course>> assignedCourses;
+//    private List<Course> allAssignedCourses;
 
     public TermViewModel(@NonNull Application application) {
         super(application);
         repository = new ScheduleRepo(application);
         allTerms = repository.getAllTerms();
+//        allAssignedCourses = repository.getAllAssignedCourses();
     }
 
     public void insert(Term term) {
@@ -43,6 +45,10 @@ public class TermViewModel extends AndroidViewModel {
     public LiveData<List<Term>> getAllTerms() {
         return allTerms;
     }
+
+//    public List<Course> allAssignedCourses() {
+//        return allAssignedCourses;
+//    }
 
     public LiveData<List<Course>> getAssignedCourses(int termID) {
         assignedCourses = repository.getAssignedCourses(termID);

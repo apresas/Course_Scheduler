@@ -39,20 +39,16 @@ import java.util.Observable;
 public class TermActivity extends AppCompatActivity {
 
     private TermViewModel termViewModel;;
-    ScheduleRepo repository;
+//    ScheduleRepo repository;
     int numTermID;
-
-
-    private List<Course> assignedCourseList = new ArrayList();
-    private List<Term> assignedTermList = new ArrayList();
+    int ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_term_list);
 
-
-
+        ScheduleRepo repo=new ScheduleRepo(getApplication());
 
         FloatingActionButton buttonAddTerm = findViewById(R.id.button_add_term);
         buttonAddTerm.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +60,6 @@ public class TermActivity extends AppCompatActivity {
             }
         });
 
-        int termIDExtra = getIntent().getIntExtra(AddEditTermActivity.EXTRA_ID, -1);
 
         RecyclerView recyclerView = findViewById(R.id.termRecycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -91,33 +86,27 @@ public class TermActivity extends AppCompatActivity {
                 return false;
             }
 
+            public List<Course> setList() {
+                List<Course> assignedCourses = new ArrayList<>();
+                for (Course c : repo.getAssignedTermID(ID)) {
+                    if (c.getTermID() == ID)assignedCourses.add(c);
+                }
+                return assignedCourses;
+            }
+
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 Term currentTerm = adapter.getTermAt(viewHolder.getAdapterPosition());
                 int termID = currentTerm.getTermID();
+                ID = termID;
 
-//                for (Term term : assignedTermList) {
-//                    if (term.getTermID() == termIDExtra) currentTerm = term;
-//                }
-//                numTermID = 0;
-//                for (Course course : assignedCourseList) {
-//                    if (course.getTermID() == termIDExtra) ++numTermID;
-//                }
-//                if (numTermID == 0) {
-//                    repository.deleteTerm(currentTerm);
-//                    Toast.makeText(TermActivity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(TermActivity.this, "Term has Courses assigned. Please delete Courses.", Toast.LENGTH_SHORT).show();
-//                }
-
-
-//                courseViewModel.getAssignedTermID(termID);
-//                System.out.println("Term ID: " + termID);
-//                System.out.println("TermID List: " + courseViewModel.getAssignedTermList(termID));
-//                if (courseViewModel.getAssignedCourses(termID).getValue().isEmpty()) {}
-//                Toast.makeText(TermActivity.this, "Term has Courses assigned. Please delete Courses.", Toast.LENGTH_SHORT).show();
-//                termViewModel.delete(adapter.getTermAt(viewHolder.getAdapterPosition()));
-//                Toast.makeText(TermActivity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
+                if (setList().isEmpty()) {
+                    repo.deleteTerm(currentTerm);
+                    Toast.makeText(TermActivity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(TermActivity.this, "Term has Courses assigned. Please delete Courses.", Toast.LENGTH_SHORT).show();
+                    recyclerView.setAdapter(adapter);
+                }
             }
         }).attachToRecyclerView(recyclerView);
 
