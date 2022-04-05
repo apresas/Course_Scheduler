@@ -27,11 +27,14 @@ public class ScheduleRepo {
     private AssessmentDAO assessmentDAO;
     private LiveData<List<Assessment>> allAssessments;
     private LiveData<List<Course>> assignedCourses;
+    private List<Course> assignedTermIDList;
     private LiveData<List<Assessment>> assignedAssessments;
     private NoteDAO noteDAO;
     private LiveData<List<Note>> allNotes;
     private LiveData<List<Note>> assignedNotes;
     private List<Course> assignedTermID;
+//    private List<Course> allAssignedCourses;
+//    private List<Term> allAssignedTerms;
 
 
 
@@ -45,6 +48,8 @@ public class ScheduleRepo {
         allAssessments = assessmentDAO.getAllAssessments();
         noteDAO = database.noteDAO();
         allNotes = noteDAO.getAllNotes();
+//        allAssignedCourses = courseDAO.getAllAssignedCourses();
+//        allAssignedTerms = termDAO.getAllAssignedTerms();
 
 
     }
@@ -67,6 +72,10 @@ public class ScheduleRepo {
     public LiveData<List<Term>> getAllTerms() {
         return allTerms;
     }
+
+//    public List<Term> getAllAssignedTerms() {
+//        return allAssignedTerms;
+//    }
 
     // TERM ASYNC
     private static class InsertTermAsyncTask extends AsyncTask<Term, Void, Void> {
@@ -144,6 +153,10 @@ public class ScheduleRepo {
         return allCourses;
     }
 
+//    public List<Course> getAllAssignedCourses() {
+//        return allAssignedCourses;
+//    }
+
     public LiveData<List<Course>> getAssignedCourses(int termID) {
         assignedCourses = courseDAO.getAssignedCourses(termID);
         return assignedCourses;
@@ -153,6 +166,7 @@ public class ScheduleRepo {
         assignedTermID = courseDAO.getAssignedTermID(termID);
         return assignedTermID;
     }
+
 
     // COURSE ASYNC
     private static class InsertCourseAsyncTask extends AsyncTask<Course, Void, Void> {

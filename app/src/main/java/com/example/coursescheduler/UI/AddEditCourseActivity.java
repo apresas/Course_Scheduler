@@ -86,8 +86,6 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.US);
     private TextView textViewTitle;
     private TextView textViewNote;
-    private TextView textViewNoteCourseID;
-    private TextView textViewNoteID;
     private AssessmentViewModel assessmentViewModel;
     private NoteViewModel noteViewModel;
     static int statusPosition;
@@ -111,14 +109,8 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         sdf = new SimpleDateFormat(dateFormat, Locale.US);
 
 
-
-
-//        editTextTitle = (EditText) findViewById(R.id.edit_note_title);
-//        editTextNote = (EditText) findViewById(R.id.edit_note_comment);
         textViewTitle = findViewById(R.id.text_view_note_title);
         textViewNote = findViewById(R.id.edit_note_body);
-
-
 
 
         instructorSpinner = findViewById(R.id.instructor_spinner);
