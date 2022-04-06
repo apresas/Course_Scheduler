@@ -104,7 +104,7 @@ public class TermActivity extends AppCompatActivity {
                     repo.deleteTerm(currentTerm);
                     Toast.makeText(TermActivity.this, "Term Deleted", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(TermActivity.this, "Term has Courses assigned. Please delete Courses.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TermActivity.this, currentTerm.getTermTitle() + " Courses assigned. Please delete Courses.", Toast.LENGTH_SHORT).show();
                     recyclerView.setAdapter(adapter);
                 }
             }
