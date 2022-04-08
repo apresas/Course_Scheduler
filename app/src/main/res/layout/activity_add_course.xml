@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:paddingTop="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     tools:context=".UI.AddEditTermActivity">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -263,24 +265,30 @@
     </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/assessmentListTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Assessment List:"
-            android:layout_marginTop="10dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            />
+
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
+            >
+
+            <TextView
+                android:id="@+id/assessmentListTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Assessment List:"
+                android:layout_marginTop="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/assessmentRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:listitem="@layout/assessment_item">
+                tools:listitem="@layout/assessment_item"
+                android:layout_below="@id/assessmentListTextView"
+                >
 
             </androidx.recyclerview.widget.RecyclerView>
 
