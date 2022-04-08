@@ -9,10 +9,12 @@ import androidx.lifecycle.LiveData;
 
 import com.example.coursescheduler.DAO.AssessmentDAO;
 import com.example.coursescheduler.DAO.CourseDAO;
+import com.example.coursescheduler.DAO.InstructorDAO;
 import com.example.coursescheduler.DAO.NoteDAO;
 import com.example.coursescheduler.DAO.TermDAO;
 import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
+import com.example.coursescheduler.Entity.Instructor;
 import com.example.coursescheduler.Entity.Note;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.UI.AddEditTermActivity;
@@ -32,8 +34,9 @@ public class ScheduleRepo {
     private LiveData<List<Note>> allNotes;
     private LiveData<List<Note>> assignedNotes;
     private List<Course> assignedTermID;
-//    private List<Course> allAssignedCourses;
-//    private List<Term> allAssignedTerms;
+    private InstructorDAO instructorDAO;
+    private LiveData<List<Instructor>> allInstructors;
+    private LiveData<List<Instructor>> assignedInstructors;
 
 
 
@@ -47,8 +50,10 @@ public class ScheduleRepo {
         allAssessments = assessmentDAO.getAllAssessments();
         noteDAO = database.noteDAO();
         allNotes = noteDAO.getAllNotes();
-//        allAssignedCourses = courseDAO.getAllAssignedCourses();
-//        allAssignedTerms = termDAO.getAllAssignedTerms();
+        instructorDAO = database.instructorDAO();
+        allInstructors = instructorDAO.getAllInstructors();
+
+
 
 
     }
@@ -72,9 +77,6 @@ public class ScheduleRepo {
         return allTerms;
     }
 
-//    public List<Term> getAllAssignedTerms() {
-//        return allAssignedTerms;
-//    }
 
     // TERM ASYNC
     private static class InsertTermAsyncTask extends AsyncTask<Term, Void, Void> {
@@ -367,6 +369,72 @@ public class ScheduleRepo {
         @Override
         protected Void doInBackground(Note... notes) {
             noteDAO.delete(notes[0]);
+            return null;
+        }
+    }
+
+
+    // INSTRUCTOR
+    public void insertInstructor(Instructor instructor){
+        new InsertInstructorAsyncTask(instructorDAO).execute(instructor);
+    }
+
+    public void updateInstructor(Instructor instructor){
+        new UpdateInstructorAsyncTask(instructorDAO).execute(instructor);
+    }
+
+    public void deleteInstructor(Instructor instructor){
+        new DeleteInstructorAsyncTask(instructorDAO).execute(instructor);
+    }
+
+    public LiveData<List<Instructor>> getAllInstructors() {
+        return allInstructors;
+    }
+
+    public LiveData<List<Instructor>> getAssignedInstructors(int courseID) {
+        assignedInstructors = instructorDAO.getAssignedInstructors(courseID);
+        return assignedInstructors;
+    }
+
+    // INSTRUCTOR ASYNC
+    private static class InsertInstructorAsyncTask extends AsyncTask<Instructor, Void, Void> {
+        private InstructorDAO instructorDAO;
+
+        private InsertInstructorAsyncTask(InstructorDAO instructorDAO) {
+            this.instructorDAO = instructorDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Instructor... instructors) {
+            instructorDAO.insert(instructors[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateInstructorAsyncTask extends AsyncTask<Instructor, Void, Void> {
+        private InstructorDAO instructorDAO;
+
+        private UpdateInstructorAsyncTask(InstructorDAO instructorDAO) {
+            this.instructorDAO = instructorDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Instructor... instructors) {
+            instructorDAO.update(instructors[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteInstructorAsyncTask extends AsyncTask<Instructor, Void, Void> {
+        private InstructorDAO instructorDAO;
+
+        private DeleteInstructorAsyncTask(InstructorDAO instructorDAO) {
+            this.instructorDAO = instructorDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Instructor... instructors) {
+            instructorDAO.delete(instructors[0]);
             return null;
         }
     }

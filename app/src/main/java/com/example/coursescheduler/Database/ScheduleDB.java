@@ -11,20 +11,23 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.coursescheduler.DAO.AssessmentDAO;
 import com.example.coursescheduler.DAO.CourseDAO;
+import com.example.coursescheduler.DAO.InstructorDAO;
 import com.example.coursescheduler.DAO.NoteDAO;
 import com.example.coursescheduler.DAO.TermDAO;
 import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
+import com.example.coursescheduler.Entity.Instructor;
 import com.example.coursescheduler.Entity.Note;
 import com.example.coursescheduler.Entity.Term;
 
-@Database(entities = {Term.class, Course.class, Assessment.class, Note.class}, version = 20)
+@Database(entities = {Term.class, Course.class, Assessment.class, Note.class, Instructor.class}, version = 21)
 public abstract class ScheduleDB extends RoomDatabase {
     private static ScheduleDB instance;
     public abstract TermDAO termDAO();
     public abstract CourseDAO courseDAO();
     public abstract AssessmentDAO assessmentDAO();
     public abstract NoteDAO noteDAO();
+    public abstract InstructorDAO instructorDAO();
 
     public static synchronized  ScheduleDB getInstance(Context context) {
         if (instance == null) {

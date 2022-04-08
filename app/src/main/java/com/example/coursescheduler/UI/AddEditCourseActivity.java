@@ -92,6 +92,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     static int instructorPosition;
     static int courseID;
     static int noteCourseID;
+    static int instructorCourseID;
 
 
 
