@@ -46,6 +46,8 @@ public class AddEditAssessmentActivity extends AppCompatActivity implements Adap
             "com.example.coursescheduler.EXTRA_ASSESSMENT_ID";
     public static final String EXTRA_COURSE_ID =
             "com.example.coursescheduler.EXTRA_COURSE_ID";
+    public static final String EXTRA_COURSE_ID_DISPlAY =
+            "com.example.coursescheduler.EXTRA_COURSE_ID_DISPLAY";
     public static final String EXTRA_TITLE =
             "com.example.coursescheduler.EXTRA_TITLE";
     public static final String EXTRA_TYPE =
@@ -176,7 +178,6 @@ public class AddEditAssessmentActivity extends AppCompatActivity implements Adap
 
     private void saveAssessment() {
         String title = assessmentTitle.getText().toString();
-//        String type = typeTitle.getText().toString();
         String type = typeSpinner.getSelectedItem().toString();
         String start = startDate.getText().toString();
         String end = endDate.getText().toString();
@@ -189,6 +190,7 @@ public class AddEditAssessmentActivity extends AppCompatActivity implements Adap
 
         Intent data = new Intent();
         data.putExtra(EXTRA_COURSE_ID, courseID);
+        data.putExtra(EXTRA_COURSE_ID_DISPlAY, courseID);
         data.putExtra(EXTRA_TYPE, type);
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_START, start);

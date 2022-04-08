@@ -18,25 +18,20 @@
             >
 
             <TextView
-                android:id="@+id/instuctorNameTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:maxLines="1"
-                android:text="Instructor's Name: "
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-            <TextView
                 android:id="@+id/instuctorName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_toEndOf="@id/instuctorNameTitle"
                 android:text="Name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-            />
+            <TextView
+                android:id="@+id/instructorID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     </RelativeLayout>
 

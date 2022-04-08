@@ -8,6 +8,9 @@
     android:padding="16dp"
     tools:context=".UI.AddEditTermActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,128 +22,132 @@
         app:layout_constraintLeft_toLeftOf="parent"
         >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        <LinearLayout
-            android:id="@+id/courseLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="10dp"
-    >
-            <TextView
-                android:id="@+id/courseIDTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Course ID:"
-                android:inputType="number"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/edit_courseID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="Auto"
-                android:layout_marginLeft="5dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                <LinearLayout
+                    android:id="@+id/courseLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginBottom="10dp"
+                    >
 
-            />
-
-    </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/IDLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="10dp"
-            >
-            <TextView
-                android:id="@+id/IDTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Term ID:"
-                android:inputType="number"
-
-                />
-
-            <TextView
-                android:id="@+id/edit_ID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="ID"
-                android:layout_marginLeft="5dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    <TextView
+                        android:id="@+id/courseIDTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Course ID:"
+                        android:inputType="number"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        />
 
 
-                />
+                    <TextView
+                        android:id="@+id/edit_courseID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Auto"
+                        android:layout_marginLeft="5dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        />
+                </LinearLayout>
 
-        </LinearLayout>
-    </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/IDLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="10dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/IDTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Term ID:"
+                        android:inputType="number"
+                        />
+
+                    <TextView
+                        android:id="@+id/edit_ID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="ID"
+                        android:layout_marginLeft="5dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        />
+                </LinearLayout>
+
+            </RelativeLayout>
 
 
-        <LinearLayout
-            android:id="@+id/courseTitleLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            >
-            <TextView
-                android:id="@+id/courseTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Course:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-
-                />
-            <EditText
-                android:id="@+id/edit_text_courseTitle"
+            <LinearLayout
+                android:id="@+id/courseTitleLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Title"
-                android:inputType="text"
-                />
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/courseTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Course:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    />
 
-        <LinearLayout
-            android:id="@+id/courseInstructor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="10dp"
+                <EditText
+                    android:id="@+id/edit_text_courseTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Title"
+                    android:inputType="text"
+                    />
 
-            >
-            <TextView
-                android:id="@+id/instructorTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Instructor:"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            </LinearLayout>
 
-                />
-            <Spinner
-                android:id="@+id/instructor_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+            <RelativeLayout
+                android:id="@+id/instructorContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/instructor_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Instructor List: "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/instructor_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:layout_below="@id/instructor_title"
+                    tools:listitem="@layout/instructor_item" />
+
+                <Button
+                    android:id="@+id/addInstructorBtn"
+                    android:layout_below="@id/instructor_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Instructor"
+                    android:layout_marginTop="7dp"
+                    />
+
+            </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/courseStatus"
@@ -224,6 +231,7 @@
             </RelativeLayout>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/NoteContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
@@ -232,7 +240,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Note Title: "
+                android:text="Note List: "
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -289,6 +297,9 @@
 
                 />
     </RelativeLayout>
-    </LinearLayout>
 
+
+
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

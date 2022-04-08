@@ -12,16 +12,14 @@ public class Course {
     private int courseID;
 
     private String courseTitle;
-    private String instructorName;
     private String status;
     private String startDate;
     private String endDate;
     private int termID;
 
     // Constructor
-    public Course(String courseTitle, String instructorName, String status, String startDate, String endDate, int termID) {
+    public Course(String courseTitle, String status, String startDate, String endDate, int termID) {
         this.courseTitle = courseTitle;
-        this.instructorName = instructorName;
         this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -37,9 +35,6 @@ public class Course {
         return courseTitle;
     }
 
-    public String getInstructorName() {
-        return instructorName;
-    }
 
     public String getStatus() { return status; }
 
@@ -62,10 +57,6 @@ public class Course {
 
     public void setCourseTitle(String courseTitle) {
         this.courseTitle = courseTitle;
-    }
-
-    public void setInstructorName(String instructorName) {
-        this.instructorName = instructorName;
     }
 
     public void setStatus(String status) { this.status = status; }

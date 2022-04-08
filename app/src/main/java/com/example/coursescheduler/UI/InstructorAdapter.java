@@ -39,6 +39,7 @@ public class InstructorAdapter extends RecyclerView.Adapter<InstructorAdapter.In
         holder.instructorName.setText(currentInstructor.getInstructorName());
         holder.email.setText(currentInstructor.getEmail());
         holder.phone.setText(currentInstructor.getPhoneNumber());
+        holder.instructorID.setText(Integer.toString(ID));
 
 
     }
@@ -61,6 +62,7 @@ public class InstructorAdapter extends RecyclerView.Adapter<InstructorAdapter.In
         private TextView instructorName;
         private TextView email;
         private TextView phone;
+        private TextView instructorID;
 
 
         public InstructorHolder(@NonNull View itemView) {
@@ -68,6 +70,7 @@ public class InstructorAdapter extends RecyclerView.Adapter<InstructorAdapter.In
             instructorName = itemView.findViewById(R.id.instuctorName);
             email = itemView.findViewById(R.id.emailField);
             phone = itemView.findViewById(R.id.phoneField);
+            instructorID = itemView.findViewById(R.id.instructorID);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

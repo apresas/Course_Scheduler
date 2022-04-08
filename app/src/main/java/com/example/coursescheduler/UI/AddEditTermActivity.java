@@ -140,7 +140,6 @@ public class AddEditTermActivity extends AppCompatActivity {
                 intent.putExtra(AddEditCourseActivity.EXTRA_COURSE_ID, course.getCourseID());
                 intent.putExtra(AddEditCourseActivity.EXTRA_TERM_ID, String.valueOf(course.getTermID()));
                 intent.putExtra(AddEditCourseActivity.EXTRA_TITLE, course.getCourseTitle());
-                intent.putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, AddEditCourseActivity.instructorPosition);
                 intent.putExtra(AddEditCourseActivity.EXTRA_STATUS, course.getStatus());
                 intent.putExtra(AddEditCourseActivity.EXTRA_STATUS_POS, AddEditCourseActivity.statusPosition);
                 intent.putExtra(AddEditCourseActivity.EXTRA_START, course.getStartDate());
@@ -262,14 +261,13 @@ public class AddEditTermActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK){
                         String title = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TITLE);
-                        String instructor = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR);
                         String status = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_STATUS);
                         String start = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_START);
                         String end = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_END);
                         String termID = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TERM_ID);
                         int ID = Integer.parseInt(termID);
 
-                        Course course = new Course(title, instructor, status, start, end, ID);
+                        Course course = new Course(title, status, start, end, ID);
 
                         courseViewModel.insert(course);
 
@@ -312,7 +310,6 @@ public class AddEditTermActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK){
                         String title = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_TITLE);
-                        String instructor = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR);
                         String status = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_STATUS);
                         String start = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_START);
                         String end = result.getData().getStringExtra(AddEditCourseActivity.EXTRA_END);
@@ -322,7 +319,7 @@ public class AddEditTermActivity extends AppCompatActivity {
 
                         System.out.println("Set Course ID: " + courseID);
 
-                        Course course = new Course(title, instructor, status, start, end, termID);
+                        Course course = new Course(title, status, start, end, termID);
                         course.setCourseID(courseID);
                         courseViewModel.update(course);
 

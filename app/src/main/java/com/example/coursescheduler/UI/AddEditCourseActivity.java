@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.coursescheduler.DAO.CourseDAO;
 import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
+import com.example.coursescheduler.Entity.Instructor;
 import com.example.coursescheduler.Entity.Note;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
@@ -74,11 +75,11 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     private TextView editTermID;
     private TextView editCourseID;
     private EditText courseTitle;
-    private Spinner instructorSpinner;
     private TextView startDate;
     private TextView endDate;
     private Spinner statusSpinner;
     private Button noteButton;
+    private Button instructorButton;
     DatePickerDialog.OnDateSetListener startDP;
     DatePickerDialog.OnDateSetListener endDP;
     final Calendar calendarStart = Calendar.getInstance();
@@ -88,8 +89,8 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
     private TextView textViewNote;
     private AssessmentViewModel assessmentViewModel;
     private NoteViewModel noteViewModel;
+    private InstructorViewModel instructorViewModel;
     static int statusPosition;
-    static int instructorPosition;
     static int courseID;
     static int noteCourseID;
     static int instructorCourseID;
@@ -114,35 +115,13 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
         textViewNote = findViewById(R.id.edit_note_body);
 
 
-        instructorSpinner = findViewById(R.id.instructor_spinner);
-        ArrayAdapter<CharSequence> iAdapter = ArrayAdapter.createFromResource(this, R.array.instructor, android.R.layout.simple_spinner_item);
-        iAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        instructorSpinner.setAdapter(iAdapter);
-        instructorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
-                String instructor = parent.getItemAtPosition(position).toString();
-                int iPos = parent.getSelectedItemPosition();
-                String iPositionString = String.valueOf(iPos);
-
-                instructorPosition = iPos;
-
-                getIntent().putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR_POS, iPositionString);
-                getIntent().putExtra(AddEditCourseActivity.EXTRA_INSTRUCTOR, instructor);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
         statusSpinner = findViewById(R.id.status_spinner);
         ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.status, android.R.layout.simple_spinner_item);
         sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statusSpinner.setAdapter(sAdapter);
         statusSpinner.setOnItemSelectedListener(this);
 
+        // Note Button
         noteButton = (Button) findViewById(R.id.addNoteBtn);
         noteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,6 +132,18 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                 noteCourseID = Integer.parseInt(nCourseID);
                 System.out.println("Static Note: " + noteCourseID);
                 noteActivityResultLauncher.launch(intent);
+            }
+        });
+
+        // Instructor Button
+        instructorButton = (Button) findViewById(R.id.addInstructorBtn);
+        instructorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AddEditCourseActivity.this, AddEditInstructorActivity.class);
+                String iCourseID = editCourseID.getText().toString();
+                instructorCourseID = Integer.parseInt(iCourseID);
+                instructorActivityResultLauncher.launch(intent);
             }
         });
 
@@ -278,7 +269,61 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                 String nCourseID = editCourseID.getText().toString();
                 noteCourseID = Integer.parseInt(nCourseID);
 
-                activityUpdateResultLauncher.launch(intent);
+                noteActivityUpdateResultLauncher.launch(intent);
+
+            }
+        });
+
+
+        // Recycler View
+        RecyclerView instructorRecyclerView = findViewById(R.id.instructor_recycler);
+        instructorRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        instructorRecyclerView.setHasFixedSize(true);
+
+        // Adapter
+        final InstructorAdapter instructorAdapter = new InstructorAdapter();
+        instructorRecyclerView.setAdapter(instructorAdapter);
+
+        // View Model
+        instructorViewModel = new ViewModelProvider(this).get(InstructorViewModel.class);
+
+        instructorViewModel.getAssignedInstructors(getIntent().getIntExtra(EXTRA_COURSE_ID, -1)).observe(this, new Observer<List<Instructor>>() {
+            @Override
+            public void onChanged(List<Instructor> instructors) {
+                instructorAdapter.setInstructors(instructors);
+            }
+        });
+
+        // Touch helper
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                instructorViewModel.delete(instructorAdapter.getInstructorAt(viewHolder.getAdapterPosition()));
+                Toast.makeText(AddEditCourseActivity.this, "Instructor Deleted", Toast.LENGTH_SHORT).show();
+            }
+        }).attachToRecyclerView(instructorRecyclerView);
+
+        // OnClick Fill Form
+        instructorAdapter.setOnItemClickListener(new InstructorAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Instructor instructor) {
+                Intent intent = new Intent(AddEditCourseActivity.this, AddEditInstructorActivity.class);
+                intent.putExtra(AddEditInstructorActivity.EXTRA_INSTRUCTOR_COURSE_ID_DISPLAY, instructorCourseID);
+                intent.putExtra(AddEditInstructorActivity.EXTRA_INSTRUCTOR_COURSE_ID, instructor.getCourseID());
+                intent.putExtra(AddEditInstructorActivity.EXTRA_INSTRUCTOR_ID, instructor.getInstructorID());
+                intent.putExtra(AddEditInstructorActivity.EXTRA_INSTRUCTOR_NAME, instructor.getInstructorName());
+                intent.putExtra(AddEditInstructorActivity.EXTRA_EMAIL, instructor.getEmail());
+                intent.putExtra(AddEditInstructorActivity.EXTRA_PHONE, instructor.getPhoneNumber());
+                String iCourseID = editCourseID.getText().toString();
+                instructorCourseID = Integer.parseInt(iCourseID);
+
+                instructorActivityUpdateResultLauncher.launch(intent);
 
             }
         });
@@ -348,7 +393,6 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
             editTermID.setText(intent.getStringExtra(EXTRA_TERM_ID));
             editCourseID.setText(intent.getStringExtra(EXTRA_COURSE_ID_DISPLAY));
             courseTitle.setText(intent.getStringExtra(EXTRA_TITLE));
-            instructorSpinner.setSelection(instructorPosition);
             statusSpinner.setSelection(statusPosition);
             startDate.setText(intent.getStringExtra(EXTRA_START));
             endDate.setText(intent.getStringExtra(EXTRA_END));
@@ -369,7 +413,6 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
     private void saveCourse() {
         String title = courseTitle.getText().toString();
-        String instructor = instructorSpinner.getSelectedItem().toString();
         String status = statusSpinner.getSelectedItem().toString();
         String start = startDate.getText().toString();
         String end = endDate.getText().toString();
@@ -382,7 +425,6 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
 
         Intent data = new Intent();
         data.putExtra(EXTRA_TERM_ID, termID);
-        data.putExtra(EXTRA_INSTRUCTOR, instructor);
         data.putExtra(EXTRA_STATUS, status);
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_START, start);
@@ -479,10 +521,10 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                         String start = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_START);
                         String end = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_END);
                         String ID = result.getData().getStringExtra(AddEditAssessmentActivity.EXTRA_COURSE_ID);
-                        int termID = Integer.parseInt(ID);
+                        int courseID = Integer.parseInt(ID);
                         int assessmentID = result.getData().getIntExtra(AddEditAssessmentActivity.EXTRA_ASSESSMENT_ID, -1);
 
-                        Assessment assessment = new Assessment(title, type, start, end, termID);
+                        Assessment assessment = new Assessment(title, type, start, end, courseID);
                         assessment.setAssessmentID(assessmentID);
                         assessmentViewModel.update(assessment);
 
@@ -547,7 +589,7 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
                     if (result.getResultCode() == Activity.RESULT_OK){
                         String noteTitle = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_TITLE);
                         String noteComment = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_BODY);
-                        String noteCourseID = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID_DISPLAY);
+                        String noteCourseID = result.getData().getStringExtra(AddEditNoteActivity.EXTRA_NOTE_COURSE_ID);
                         int noteID = result.getData().getIntExtra(AddEditNoteActivity.EXTRA_NOTE_ID, -1);
 
                         Note note = new Note(noteTitle, noteComment, Integer.parseInt(noteCourseID));
@@ -563,5 +605,52 @@ public class AddEditCourseActivity extends AppCompatActivity implements AdapterV
             }
     );
 
+
+    private final ActivityResultLauncher<Intent> instructorActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK){
+                        String name = result.getData().getStringExtra(AddEditInstructorActivity.EXTRA_INSTRUCTOR_NAME);
+                        String email = result.getData().getStringExtra(AddEditInstructorActivity.EXTRA_EMAIL);
+                        String phone = result.getData().getStringExtra(AddEditInstructorActivity.EXTRA_PHONE);
+
+                        Instructor instructor = new Instructor(name, email, phone, instructorCourseID);
+
+                        instructorViewModel.insert(instructor);
+
+                        Toast.makeText(AddEditCourseActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+
+                    }else {
+                        Toast.makeText(AddEditCourseActivity.this, "Unsuccessful", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    );
+
+    private ActivityResultLauncher<Intent> instructorActivityUpdateResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK){
+                        String name = result.getData().getStringExtra(AddEditInstructorActivity.EXTRA_INSTRUCTOR_NAME);
+                        String email = result.getData().getStringExtra(AddEditInstructorActivity.EXTRA_EMAIL);
+                        String phone = result.getData().getStringExtra(AddEditInstructorActivity.EXTRA_PHONE);
+                        int instructorID = result.getData().getIntExtra(AddEditInstructorActivity.EXTRA_INSTRUCTOR_ID, -1);
+
+                        Instructor instructor = new Instructor(name, email, phone, instructorCourseID);
+                        instructor.setInstructorID(instructorID);
+                        instructorViewModel.update(instructor);
+
+                        Toast.makeText(AddEditCourseActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+
+                    }else {
+                        Toast.makeText(AddEditCourseActivity.this, "NOT Updated", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+    );
 
 }

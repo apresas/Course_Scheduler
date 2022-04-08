@@ -37,7 +37,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         holder.courseIDTextView.setText(Integer.toString(ID));
         holder.textViewTitle.setText(currentCourse.getCourseTitle());
         holder.textViewTermID.setText(Integer.toString(termID));
-        holder.textViewInstructor.setText(currentCourse.getInstructorName());
         holder.textViewStatus.setText(currentCourse.getStatus());
         holder.textViewStart.setText(currentCourse.getStartDate());
         holder.textViewEnd.setText(currentCourse.getEndDate());

@@ -9,6 +9,7 @@ import android.view.View;
 import com.example.coursescheduler.Database.ScheduleRepo;
 import com.example.coursescheduler.Entity.Assessment;
 import com.example.coursescheduler.Entity.Course;
+import com.example.coursescheduler.Entity.Instructor;
 import com.example.coursescheduler.Entity.Note;
 import com.example.coursescheduler.Entity.Term;
 import com.example.coursescheduler.R;
@@ -38,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
 //        repo.insertTerm(term1);
 //        repo.insertTerm(term2);
 //
-//        Course course = new Course("Software 1", "John Doe", "In Progress","03/01/22", "04/03/22", 1);
-//        Course course1 = new Course("Software 2", "Jane Doe", "In Progress","05/01/22", "06/01/22", 2);
-//        Course course2 = new Course("Mobile App", "Jim Doe", "In Progress","06/01/22", "07/01/22", 3);
-//        Course course3 = new Course("Tester", "Jim Doe", "In Progress","06/01/22", "07/01/22", 1);
+//        Course course = new Course("Software 1", "In Progress","03/01/22", "04/03/22", 1);
+//        Course course1 = new Course("Software 2", "In Progress","05/01/22", "06/01/22", 2);
+//        Course course2 = new Course("Mobile App", "In Progress","06/01/22", "07/01/22", 3);
+//        Course course3 = new Course("Tester","In Progress","06/01/22", "07/01/22", 1);
 //        repo.insertCourse(course);
 //        repo.insertCourse(course1);
 //        repo.insertCourse(course2);
@@ -53,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
 //        repo.insertNote(note);
 //        repo.insertNote(note1);
 //        repo.insertNote(note2);
+//
+//        Instructor instructor = new Instructor("John Doe", "j.doe@email.com", "222-222-2222", 1);
+//        Instructor instructor1 = new Instructor("Jane Doe", "jdoe@email.com", "222-222-2223", 2);
+//        Instructor instructor2 = new Instructor("Tim Tom", "t.tom@email.com", "222-222-2224", 3);
+//        repo.insertInstructor(instructor);
+//        repo.insertInstructor(instructor1);
+//        repo.insertInstructor(instructor2);
 
 
     }
